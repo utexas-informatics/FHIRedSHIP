@@ -1,0 +1,265 @@
+<app-spinner *ngIf="isLoaded == false"></app-spinner>
+<div
+  class="app-wrapper flex-column flex-row-fluid"
+  id="kt_app_wrapper"
+  *ngIf="isLoaded"
+>
+  <div
+    class="app-main flex-column flex-row-fluid cust-min-height"
+    id="kt_app_main"
+    style=""
+  >
+    <div class="d-flex flex-column flex-column-fluid">
+      <div id="kt_app_content" class="app-content flex-column-fluid">
+        <div id="kt_app_content_container" class="app-container container-xxl">
+          <div class="row flex-lg-row-fluid ms-1">
+            <div
+              class="card col-sm-2 mb-7 me-4 pointer"
+              *ngFor="let senderUser of senderList; index as i"
+              [ngClass]="{ active: senderUser.user.chatFor === chatFor }"
+            >
+              <div
+                class="d-flex align-items-center py-3"
+                (click)="selectChat(senderUser.user,i)"
+              > 
+                <div class="symbol symbol-50px me-3">
+                  <i
+                    class="fas fa-user fs-2hx"
+                    *ngIf="senderUser.user.chatFor != 'Group'"
+                  ></i>
+                  <i
+                    class="fas fa-users fs-2hx"
+                    *ngIf="senderUser.user.chatFor == 'Group'"
+                  ></i>
+                </div>
+                <div class="flex-grow-1 text-ellipsis">
+                  <a
+                    href="javascript:void(0)"
+                    class="text-dark fw-bolder text-hover-primary fs-6"
+                    >{{ senderUser.user.name }}</a
+                  >
+                </div>
+              </div>
+              <span
+                  class="p-3 badge badge-danger badge-circle fw-bold h-15px w-15px position-absolute translate-left end-0"
+                  *ngIf = "senderUser.user.count && senderUser.user.count !== 0"
+                  >{{senderUser.user.count}}</span
+                >
+            </div>
+          </div>
+
+          <div class="d-flex flex-column flex-lg-row">
+            <!--end::Sidebar-->
+            <!--begin::Content-->
+            <div class="flex-lg-row-fluid">
+              <!--begin::Messenger-->
+              <div class="card" id="kt_chat_messenger">
+                <!--begin::Card header-->
+                <div class="card-header" id="chat_messenger_header">
+                  <!--begin::Title-->
+                  <div class="card-title">
+                    <!--begin::User-->
+                    <div class="d-flex justify-content-center flex-column me-3">
+                      <a
+                        href="javascript:void(0)"
+                        class="fs-4 fw-bold text-gray-900 text-hover-primary me-1 mb-2 lh-1"
+                        >{{ currentUser }}</a
+                      >
+                      <!--begin::Info-->
+                      <div class="mb-0 lh-1">
+                        <span
+                          class="badge badge-success badge-circle w-10px h-10px me-1"
+                        ></span>
+                        <!-- <span class="fs-7 fw-semibold text-muted">Active</span> -->
+                      </div>
+                      <!--end::Info-->
+                    </div>
+                    <!--end::User-->
+                  </div>
+                  <!--end::Title-->
+                </div>
+                <!--end::Card header-->
+                <!--begin::Card body-->
+                <div class="card-body" id="chat_messenger_body">
+                  <!--begin::Messages-->
+
+                  <!--   <div class="scroll-y me-n5 pe-5 h-300px h-lg-auto" id="message-scroll" data-kt-element="messages" data-kt-scroll="true" data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto" data-kt-scroll-dependencies="#header, #toolbar, #footer, #chat_messenger_header, #chat_messenger_footer" data-kt-scroll-wrappers="#kt_content, #chat_messenger_body" data-kt-scroll-offset="5px" style="min-height: 200px;" [innerHtml]="htmlToAdd | safeHtml"> -->
+                  <div
+                    class="scroll-y me-n5 pe-5 h-300px h-lg-auto"
+                    id="message-scroll"
+                    data-kt-element="messages"
+                    data-kt-scroll="true"
+                    data-kt-scroll-activate="{default: false, lg: true}"
+                    data-kt-scroll-max-height="auto"
+                    data-kt-scroll-dependencies="#header, #toolbar, #footer, #chat_messenger_header, #chat_messenger_footer"
+                    data-kt-scroll-wrappers="#kt_content, #chat_messenger_body"
+                    data-kt-scroll-offset="5px"
+                    style="min-height: 200px"
+                  >
+                    <div
+                      class="text-center mb-7 load-more-chat-wrapper cursor"
+                      *ngIf="moreRecordExist"
+                    >
+                      <span
+                        class="badge load-more-chat py-3 px-4 fs-7 badge-light-primary"
+                        (click)="fetchMoreRecords()"
+                        >Load More</span
+                      >
+                    </div>
+
+                    <div *ngFor="let message of totalMessages; index as i">
+                      <div class="text-center fw-bold text-gray-900">
+                        <span>{{ message.date }}</span>
+                      </div>
+
+                      <div *ngFor="let msg of message.messages; index as i">
+                        <div
+                          class="d-flex justify-content-end mb-10"
+                          message-id=""
+                          *ngIf="msg.sender == sender"
+                        >
+                          <!--begin::Wrapper-->
+                          <div class="d-flex flex-column align-items-end">
+                            <!--begin::User-->
+                            <div class="d-flex align-items-center mb-2">
+                              <!--begin::Details-->
+                              <div class="me-3">
+                                <span class="text-muted fs-7 mb-1">{{
+                                  msg.time
+                                }}</span>
+                                <a
+                                  href="#"
+                                  class="fs-5 fw-bold text-gray-900 text-hover-primary ms-1"
+                                  >{{ msg.sdi }}</a
+                                >
+                              </div>
+                              <!--end::Details-->
+                              <!--begin::Avatar-->
+                              <div class="symbol symbol-35px symbol-circle">
+                                <i class="fas fa-user fs-2hx"></i>
+                                <!-- <img alt="Pic" src="assets/media/avatars/300-1.jpg"> -->
+                              </div>
+                              <!--end::Avatar-->
+                            </div>
+                            <!--end::User-->
+                            <!--begin::Text-->
+                            <div
+                              class="p-5 rounded bg-light-primary text-dark fw-semibold mw-lg-400px text-end"
+                              data-kt-element="message-text"
+                            >
+                              {{ msg.message }}
+                            </div>
+                            <!--end::Text-->
+                          </div>
+                          <!--end::Wrapper-->
+                        </div>
+
+                        <div
+                          class="d-flex justify-content-start mb-10"
+                          *ngIf="msg.sender != sender"
+                        >
+                          <!--begin::Wrapper-->
+                          <div class="d-flex flex-column align-items-start">
+                            <!--begin::User-->
+                            <div class="d-flex align-items-center mb-2">
+                              <!--begin::Avatar-->
+                              <div class="symbol symbol-35px symbol-circle">
+                                <i class="fas fa-user fs-2hx"></i>
+                                <!--  <img alt="Pic" src="assets/media/avatars/300-25.jpg"> -->
+                              </div>
+                              <!--end::Avatar-->
+                              <!--begin::Details-->
+                              <div class="ms-3">
+                                <a
+                                  href="#"
+                                  class="fs-5 fw-bolder text-gray-900 text-hover-primary me-1"
+                                  >{{ msg.sdi }}</a
+                                >
+                                <span class="text-muted fs-7 mb-1">{{
+                                  msg.time
+                                }}</span>
+                              </div>
+                              <!--end::Details-->
+                            </div>
+                            <!--end::User-->
+                            <!--begin::Text-->
+                            <div
+                              class="p-5 rounded bg-light-info text-dark fw-bold mw-lg-400px text-start"
+                              data-kt-element="message-text"
+                            >
+                              {{ msg.message }}
+                            </div>
+                            <!--end::Text-->
+                          </div>
+                          <!--end::Wrapper-->
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!--end::Messages-->
+                </div>
+                <!--end::Card body-->
+                <!--begin::Card footer-->
+                <div class="card-footer pt-4" id="chat_messenger_footer">
+                  <!--begin::Input-->
+                  <textarea
+                    class="form-control form-control-flush mb-3"
+                    rows="1"
+                    data-kt-element="input"
+                    placeholder="Type a message"
+                    [(ngModel)]="currentMessage"
+                    (keyup.enter)="sendMessage()"
+                  ></textarea>
+                  <!--end::Input-->
+                  <!--begin:Toolbar-->
+                  <div class="d-flex flex-stack">
+                    <!--begin::Actions-->
+                    <div class="d-flex align-items-center me-2">
+                      <button
+                        class="btn btn-sm btn-icon btn-active-light-primary me-1"
+                        type="button"
+                        data-bs-toggle="tooltip"
+                        aria-label="Coming soon"
+                        data-kt-initialized="1"
+                      >
+                        <i class="bi bi-paperclip fs-3"></i>
+                      </button>
+                      <button
+                        class="btn btn-sm btn-icon btn-active-light-primary me-1"
+                        type="button"
+                        data-bs-toggle="tooltip"
+                        aria-label="Coming soon"
+                        data-kt-initialized="1"
+                      >
+                        <i class="bi bi-upload fs-3"></i>
+                      </button>
+                    </div>
+                    <!--end::Actions-->
+                    <!--begin::Send-->
+                    <button
+                      class="btn btn-primary"
+                      type="button"
+                      data-kt-element="send"
+                      (click)="sendMessage()"
+                    >
+                      Send
+                    </button>
+                    <!--end::Send-->
+                  </div>
+                  <!--end::Toolbar-->
+                </div>
+                <!--end::Card footer-->
+              </div>
+              <!--end::Messenger-->
+            </div>
+            <!--end::Content-->
+          </div>
+          <!--end::Layout-->
+        </div>
+        <!--end::Content container-->
+      </div>
+      <!--end::Content-->
+    </div>
+    <!--end::Content wrapper-->
+  </div>
+</div>

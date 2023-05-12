@@ -1,0 +1,20 @@
+tr input{
+border: 1px solid #eff2f5!important;	
+}
+.table.cust-table tr{
+border-bottom-color: lightgrey!important;	
+}
+
+.table.table-row-dashed tr{
+border-bottom-color: lightgrey!important;		
+}
+
+.table.table-row-dashed tr {
+    border-bottom-width: 1px!important;
+    border-bottom-style: dashed!important;
+    border-bottom-color: lightgrey!important;
+}
+
+.min-height-200{
+    min-height: 200px!important;
+}

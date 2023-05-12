@@ -1,0 +1,295 @@
+    <div class="app-wrapper flex-column flex-row-fluid" id="kt_app_wrapper">
+         
+          <div class="app-main flex-column flex-row-fluid cust-min-height" id="kt_app_main">
+        
+            <div class="d-flex flex-column flex-column-fluid">
+              <div id="kt_app_toolbar" class="app-toolbar py-3 py-lg-6">
+                <div id="kt_app_toolbar_container" class="app-container container-xxl d-flex flex-stack">
+                  <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
+                    <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">Add Referral</h1>
+                  </div>
+         
+                  <div class="d-flex align-items-center gap-2 gap-lg-3">
+               
+        			     <button  href="javascript:void(0)" *ngIf="ref_id == ''" (click)="save()" class="btn btn-sm fw-bold btn-primary">Save</button>
+
+                     <button  href="javascript:void(0)" *ngIf="ref_id != ''" (click)="save()" class="btn btn-sm fw-bold btn-primary">Update</button>
+                
+                  </div>
+            
+                </div>
+           
+              </div>
+        
+              <div id="kt_app_content" class="app-content flex-column-fluid">
+         
+                <div id="kt_app_content_container" class="app-container container-xxl">
+       
+               
+
+          
+
+
+<div class="card " style="width:100%;">
+  <div class="card-body align-items-center p-5 p-lg-8">
+
+<!-- <div class="row">
+  <div class=""> -->
+
+<form class="form fv-plugins-bootstrap5 fv-plugins-framework" autocomplete="off" novalidate="novalidate" id="kt_modal_create_app_form">
+
+<!-- 
+<div class=" d-flex flex-column p-10">
+    <label for="" class="form-label">Basic autosize</label>
+    <input type="text" class="form-control" >
+</div> -->
+
+<!-- <div class=" d-flex flex-column p-10">
+    <label for="" class="form-label">Basic autosize textarea</label>
+    <textarea class="form-control" data-kt-autosize="true"></textarea>
+</div> -->
+
+
+<!--   <input class="form-control form-control-lg form-control-solid" placeholder="email" [formControl]="$any(referralForm.controls['email'])" type="email" name="email" autocomplete="off">
+               <small class="form-text text-danger" *ngIf="
+                (referralForm.controls['email'].status=='INVALID' &&
+                  referralForm.controls['email'].touched) ||
+                (referralForm.controls['email'].hasError('required') &&
+                  referralForm.controls['email'].touched)
+              ">Enter valid Email</small> -->
+
+
+
+
+      <div class="d-flex flex-column mb-4 fv-row fv-plugins-icon-container fs-autocomplete-menu"
+            >
+              <label class="d-flex align-items-center fs-6 fw-semibold mb-2">
+                <span class="required">Referral Name</span>
+              </label>
+
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Referral Name"
+                type="text"
+                name="categoryLabel"
+                autocomplete="off"
+                [(ngModel)]="referral.categoryLabel"
+              />
+            </div>
+
+
+  
+<!--   <div class="mb-4">
+    <label class="form-label">Domain</label>
+    <select class="form-select" name="categoryCode" id="categoryCode" [(ngModel)]="referral.categoryCode">
+       <option *ngFor="let domain of domains" [ngValue]="domain.value">
+          {{domain.name}}
+      </option>
+
+    </select>
+  </div>
+ -->
+  <div
+        class="d-flex flex-column mb-4 fv-row fv-plugins-icon-container"
+            >
+              <label class="d-flex align-items-center fs-6 fw-semibold mb-2">
+                <span class="required">Intervention</span>
+              </label>
+
+             <app-autocomplete keyword='desc' [isDisable]=isDisable (newItemEvent)="receiveIntervation($event)" inputClear='false' [value]=interventionsValue [searchUrl]=intervationUrl ></app-autocomplete>
+
+
+            </div>
+
+
+  <div
+        class="d-flex flex-column mb-4 fv-row fv-plugins-icon-container"
+            >
+              <label class="d-flex align-items-center fs-6 fw-semibold mb-2">
+                <span class="required">Patient</span>
+              </label>
+
+             <app-autocomplete keyword='email' [isDisable]=isDisable (newItemEvent)="receivePatient($event)" inputClear='false' [value]=patientValue [searchUrl]=patientUrl ></app-autocomplete>
+
+
+            </div>
+
+       <div
+        class="d-flex flex-column fv-row fv-plugins-icon-container" *ngIf="referral.patient.sid && referral.patient.sid != ''">
+              <label class="d-flex align-items-center fs-6 fw-semibold mb-2">
+                <span>Health Concern</span>
+              </label>
+
+             <app-autocomplete keyword='desc' isDisable='false' (newItemEvent)="receiveCondition($event)" inputClear='true' [searchUrl]=conditionUrl ></app-autocomplete>
+
+ 
+
+            </div>
+
+            <div class="mb-4">
+            <span *ngFor="let condition of referral.conditions; index as i" class="mt-sm-4 me-sm-2 mt-sm-2" style="display:inline-block;">
+             <span class="badge py-3 px-4 fs-7 badge-light-primary">{{checkForHtml(condition.code)}} &nbsp; <i class="fa fa-times" aria-hidden="true" (click)="removeItem(condition)"></i></span>
+           </span>
+         </div>
+
+
+
+   <div
+        class="d-flex flex-column mb-4 fv-row fv-plugins-icon-container"
+            >
+              <label class="d-flex align-items-center fs-6 fw-semibold mb-2">
+                <span class="required">CBO</span>
+              </label>
+
+             <app-autocomplete keyword='name' [value]=cboValue [isDisable]=isDisable (newItemEvent)="receiveCbo($event)" inputClear='false' [searchUrl]=cboUrl ></app-autocomplete>
+
+
+            </div>
+
+
+
+      <div class="d-flex flex-column mb-4 fv-row fv-plugins-icon-container fs-autocomplete-menu"
+            >
+              <label class="d-flex align-items-center fs-6 fw-semibold mb-2">
+                <span class="">Notes</span>
+              </label>
+
+              <textarea class="form-control"
+                placeholder="Notes..."
+                type="text"
+                name="notes"
+                autocomplete="off"
+                [(ngModel)]="referral.notes">
+                
+
+              </textarea>
+              
+              
+            </div>
+
+
+
+             <div class="d-flex align-items-center gap-2 gap-lg-3">
+               
+                   <button  href="javascript:void(0)"  *ngIf="ref_id == ''" (click)="save()" class="fs-width-100 btn btn-sm fw-bold btn-primary">Save</button>
+
+                    <button  href="javascript:void(0)"  *ngIf="ref_id != ''" (click)="save()" class="fs-width-100 btn btn-sm fw-bold btn-primary">Update</button>
+                
+                  </div>
+
+
+
+<!-- <div class="d-flex flex-column mb-4 fv-row fv-plugins-icon-container">
+            
+                <label class="d-flex align-items-center fs-6 fw-semibold mb-2">
+             
+
+                <span class="required">Patient</span>
+                </label>
+              
+                <input type="text" class="form-control"  placeholder="Patient" type="referralForm" name="patient" (keyup)="onPatientKeyup($event,'patient')"  type="text"  autocomplete="off">
+
+
+              <div class="fv-plugins-message-container invalid-feedback"></div>
+
+
+            </div> -->
+
+
+
+<!-- <div class="d-flex flex-column mb-4 fv-row fv-plugins-icon-container">
+            
+                <label class="d-flex align-items-center fs-6 fw-semibold mb-2">
+                <span class="required">CBO</span>
+                </label>
+              
+                <input type="text" class="form-control"  placeholder="CBO" (keyup)="onPerformerKeyup($event,'cbo')"  type="text"  type="referralForm" name="performer" autocomplete="off">
+         
+
+
+              <div class="fv-plugins-message-container invalid-feedback"></div>
+            </div> -->
+
+
+
+
+
+
+</form>
+
+
+
+
+
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+               
+              </div>
+
+
+            
+            </div>
+    
+          </div>
+       
+        </div>
+       
+      </div>
+
+
+
+<div class="cust-list custom-search-list app-header-menu" (clickOutside)="onClickedOutside($event)" style="background-color:#fff;position:absolute;top:-90000000px;z-index:999999999;border:1px grey">
+ <div class="menu menu-column menu-rounded menu-gray-800 menu-state-bg menu-state-color fw-semibold py-2 fs-6" style="border-color: lightgray;
+ border-radius: 0.375rem;
+ border-width: 0.5px;
+ border-style: solid;"> 
+
+                  <div class="menu-item px-3" (click)="selectitem(list);resetListPosition()" *ngFor="let list of searchList; index as d" >
+                      
+                        <a  class="menu-link">{{list.name?list.name: list.email}}
+                         <i> &nbsp;  &nbsp; &nbsp; &nbsp;<span *ngIf="currentActiveMode=='patient' && list.name">{{list.email}}</span> <span *ngIf="currentActiveMode!='patient'">{{list.description}}</span></i></a>
+
+                       
+                    </div>
+
+                    <div class="menu-item px-3" *ngIf="searchList.length==0" (click)="resetListPosition()">
+                     
+                        <a  class="menu-link">
+                          <span>No Matching Results</span> </a>
+                      
+                    </div>
+                   
+</div>
+
+                   
+                  </div>
+
+

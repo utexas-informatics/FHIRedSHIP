@@ -1,0 +1,265 @@
+<div class="app-container container-xxl">
+<div class="card mb-5 mb-xl-10">
+										<!--begin::Card header-->
+										<div class="card-header border-0 cursor-pointer" role="button" data-bs-toggle="collapse" data-bs-target="#kt_account_connected_accounts" aria-expanded="true" aria-controls="kt_account_connected_accounts">
+											<div class="card-title m-0">
+												<h3 class="fw-bold m-0">Connected Accounts</h3>
+											</div>
+										</div>
+										<!--end::Card header-->
+										<!--begin::Content-->
+										<div class="collapse show">
+											<!--begin::Card body-->
+
+											<div class="card-body border-top p-9 pos-relative">
+                         <app-spinner *ngIf="showLoading== true"></app-spinner>
+												<!--begin::Items-->
+												<div class="py-2" *ngIf="showLoading== false">
+													<!--begin::Item-->
+
+                                <div class="d-flex flex-stack">
+                            <div class="d-flex">
+                              <img src="assets/media/referral/logo.png" class="w-30px me-6" alt="">
+                              <div class="d-flex flex-column">
+                                <a href="#" class="fs-5 text-dark text-hover-primary fw-bold">Referral System</a>
+                                <div class="fs-6 fw-semibold text-gray-400">Use for track the referral status</div>
+                              </div>
+                            </div>
+                            <div class="d-flex justify-content-end">
+                              <span class="mt-sm-1 me-sm-10" *ngIf="referralSetting._id && referralEnable==true"><b>Link with:</b>({{referralSetting.meta.linkWith}})</span>
+                              <a href="javascript:void(0)" class="me-sm-18 mt-sm-1" *ngIf="referralSetting._id" (click)="openRefAccountChange(accountlinkwithref)">Configure</a>
+                              <div class="form-check form-check-solid form-check-custom form-switch">
+                                <input class="form-check-input w-45px h-30px" type="checkbox" id="referralswitch" [(ngModel)]="referralEnable" (click)=switchReferral()>
+                                <label class="form-check-label" for="referralswitch"></label>
+                              </div>
+                            </div>
+                          </div>
+													
+
+                            <div class="separator separator-dashed my-5"></div>
+                          <div class="d-flex flex-stack">
+														<div class="d-flex">
+															<img src="assets/media/calendly/calendly-logo.png" class="w-30px me-6" alt="">
+															<div class="d-flex flex-column">
+																<a href="#" class="fs-5 text-dark text-hover-primary fw-bold">Calendly</a>
+																<div class="fs-6 fw-semibold text-gray-400">Use for create a schedule meetings</div>
+															</div>
+														</div>
+														<div class="d-flex justify-content-end">
+                              <span class="mt-sm-1 me-sm-10" *ngIf="calendlySetting._id && calendlyEnable==true"><b>Link with:</b>({{calendlySetting.meta.linkWith}})</span>
+
+															<a href="javascript:void(0)" class="me-sm-18 mt-sm-1" *ngIf="calendlySetting._id && calendlyEnable==true"   (click)="openAccountChange(calendlyAccountChange)">Configure</a>
+															<div class="form-check form-check-solid form-check-custom form-switch">
+																<input class="form-check-input w-45px h-30px" type="checkbox" id="calendlyswitch" [(ngModel)]="calendlyEnable" (click)=switchMode()>
+																<label class="form-check-label" for="calendlyswitch"></label>
+															</div>
+														</div>
+													</div>
+													<!--end::Item-->
+											
+
+                    
+										
+												</div>
+												<!--end::Items-->
+											</div>
+											<!--end::Card body-->
+											<!--begin::Card footer-->
+										<!-- 	<div class="card-footer d-flex justify-content-end py-6 px-9">
+												<button class="btn btn-light btn-active-light-primary me-2">Discard</button>
+												<button class="btn btn-primary">Save Changes</button>
+											</div> -->
+											<!--end::Card footer-->
+										</div>
+										<!--end::Content-->
+									</div>
+
+</div>
+
+
+
+
+
+
+
+<ng-template #calendlyModal let-modal>
+  <div class="modal-header">
+    <h2 class="modal-title" id="modal-basic-title">
+    Connect with Calendly
+    </h2>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
+  </div>
+  <div class="modal-body">
+
+
+   <div
+        class="d-flex flex-column mb-8 fv-row fv-plugins-icon-container"
+            >
+              <label class="d-flex align-items-center fs-6 fw-semibold mb-2">
+              <span>Paste your token </span>&nbsp;<span> (<i>How to get new token <a href="https://developer.calendly.com/how-to-authenticate-with-personal-access-tokens" target="_blank">Click Here to see</a></i>)</span>
+              </label>
+
+              <input type="password" name="token" id="token" class="form-control" [(ngModel)]="token">
+   </div>
+  </div>
+  <div class="modal-footer">
+   
+
+    <button
+      (click)="saveToken(modal)"
+      type="button"
+      class="btn btn-lg btn-primary"
+      data-kt-stepper-action="next"
+    >
+      Save
+      <span class="svg-icon svg-icon-3 ms-1 me-0"> </span>
+    </button>
+  </div>
+</ng-template>
+
+<button
+  style="display: none"
+  id="calendlyModalWrapper"
+  class="btn btn-lg btn-outline-primary"
+  (click)="open(calendlyModal)"
+>
+Launch Form calendly Modal
+</button>
+
+
+
+
+<ng-template #calendlyAccountChange let-modal>
+  <div class="modal-header">
+    <h2 class="modal-title" id="modal-basic-title">
+    Connect with Calendly
+    </h2>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
+  </div>
+  <div class="modal-body">
+
+
+   <div
+        class="d-flex flex-column mb-8 fv-row fv-plugins-icon-container"
+            >
+              <label class="d-flex align-items-center fs-6 fw-semibold mb-2">
+                   <span>Paste your token</span>&nbsp;<span> (<i>How to get new token <a href="https://developer.calendly.com/how-to-authenticate-with-personal-access-tokens" target="_blank">Click Here to see</a></i>)</span>
+              </label>
+
+              <input type="password" name="token" id="token" class="form-control" [(ngModel)]="token">
+   </div>
+  </div>
+  <div class="modal-footer">
+   
+
+    <button
+      (click)="accountChange(modal)"
+      type="button"
+      class="btn btn-lg btn-primary"
+      data-kt-stepper-action="next"
+    >
+      Save
+      <span class="svg-icon svg-icon-3 ms-1 me-0"> </span>
+    </button>
+  </div>
+</ng-template>
+
+
+
+
+<!-- referral system popup -->
+
+<ng-template #accountlinkwithref let-modal>
+  <div class="modal-header">
+    <h2 class="modal-title" id="modal-basic-title">
+      Create link with referral account
+    </h2>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
+  </div>
+  <div class="modal-body">
+
+    <form
+      class="form fv-plugins-bootstrap5 fv-plugins-framework"
+      [formGroup]="linkingForm"
+      autocomplete="off"
+      novalidate="novalidate"
+      id="kt_modal_create_app_form"
+    >
+      <div class="current" data-kt-stepper-element="content">
+        <div class="w-100">
+          <div class="fv-row mb-10 fv-plugins-icon-container">
+            <div class="d-flex align-items-center">
+            <label class="fs-5 fw-bold mb-2">
+              <span class="required">Email</span> 
+            </label>
+         <!--    <em>(enter referral email which you want to link)</em> -->
+           </div>
+            <input
+              class="form-control form-control-lg form-control-solid"
+              placeholder="email"
+              [formControl]="$any(linkingForm.controls['email'])"
+              type="email"
+              name="email"
+              autocomplete="off"
+              (input)="checkValue()"
+            />
+            <small
+              class="form-text text-danger"
+              *ngIf="
+                (linkingForm.controls['email'].status == 'INVALID' &&
+                  linkingForm.controls['email'].touched) ||
+                (linkingForm.controls['email'].hasError('required') &&
+                  linkingForm.controls['email'].touched)
+              "
+              >Enter valid Email</small
+            >
+            <small class="form-text text-danger" *ngIf="emailNotFound == true"
+              >Email not found</small
+            >
+
+            <div class="fv-plugins-message-container invalid-feedback"></div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <!--    <button type="button" class="btn btn-outline-dark" (click)="save(modal)">Link</button> -->
+
+    <button
+      (click)="save(modal)"
+      type="button"
+      class="btn btn-lg btn-primary"
+      data-kt-stepper-action="next"
+    >
+      Link
+      <span class="svg-icon svg-icon-3 ms-1 me-0"> </span>
+    </button>
+  </div>
+</ng-template>
+
+<button
+  style="display: none"
+  id="linkingModal"
+  class="btn btn-lg btn-outline-primary"
+  (click)="openRefAccountLink(accountlinkwithref)"
+>
+  Launch demo modal
+</button>
+
+

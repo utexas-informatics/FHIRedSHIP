@@ -1,0 +1,208 @@
+
+
+
+
+
+
+ <div class="wrapper d-flex flex-column flex-row-fluid">
+
+  <div id="kt_header" style="" class="header align-items-stretch">
+              <!--begin::Container-->
+              <div class="container-fluid d-flex align-items-stretch justify-content-between">
+                <!--begin::Aside mobile toggle-->
+                <div class="d-flex align-items-center d-lg-none ms-n2 me-2" title="Show aside menu"><!-- 
+                  <div class="btn btn-icon btn-active-light-primary w-30px h-30px w-md-40px h-md-40px" id="kt_aside_mobile_toggle">
+               
+                    <span class="svg-icon svg-icon-1">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M21 7H3C2.4 7 2 6.6 2 6V4C2 3.4 2.4 3 3 3H21C21.6 3 22 3.4 22 4V6C22 6.6 21.6 7 21 7Z" fill="currentColor"></path>
+                        <path opacity="0.3" d="M21 14H3C2.4 14 2 13.6 2 13V11C2 10.4 2.4 10 3 10H21C21.6 10 22 10.4 22 11V13C22 13.6 21.6 14 21 14ZM22 20V18C22 17.4 21.6 17 21 17H3C2.4 17 2 17.4 2 18V20C2 20.6 2.4 21 3 21H21C21.6 21 22 20.6 22 20Z" fill="currentColor"></path>
+                      </svg>
+                    </span>
+              
+                  </div> -->
+                </div>
+                <!--end::Aside mobile toggle-->
+               
+                <!--begin::Wrapper-->
+                <div class="d-flex align-items-stretch justify-content-between flex-lg-grow-1 fs-width-100">
+                  <!--begin::Navbar-->
+                  <div class="d-flex align-items-stretch" id="kt_header_nav">
+                    <!--begin::Menu wrapper-->
+                    <div class="align-items-stretch">
+                      <!--begin::Menu-->
+                      <div class="menu menu-lg-rounded menu-lg-row" id="kt_header_menu" >
+                        
+                     
+                <div class="aside-logo flex-column-auto cs-mr-20" id="kt_aside_logo">
+              <!--begin::Logo-->
+              <a href="javascript:void(0)">
+                <h1 class="cs-mt-20">Referral</h1>
+              </a>
+              <!--end::Logo-->
+           
+            </div> 
+  
+  
+  
+                        <div data-kt-menu-trigger="click" data-kt-menu-placement="bottom-start" *ngIf="role === 'Chw' || role === 'chw-organization' || role === 'cbo-organization' || role === 'Cbo'" class="menu-item menu-lg-down-accordion me-lg-1" (click)="redirectTo('/dashboard')" [ngClass]="{'show': currentUrl === '/dashboard'}">
+                          <span class="menu-link py-3">
+                            <span class="menu-title">Dashboards</span>
+                           <!--  <span class="menu-arrow d-lg-none"></span> -->
+                          </span>
+                        </div>
+  
+  
+  
+  
+  
+  
+                        <div data-kt-menu-trigger="click" data-kt-menu-placement="bottom-start" *ngIf="role === 'Chw' || role === 'chw-organization'" class="menu-item menu-lg-down-accordion me-lg-1" (click)="redirectTo('patient')" data-kt-menu-trigger="{default: 'click', lg: 'hover'}" [ngClass]="{'show': currentUrl === '/patient'}">
+                          <span class="menu-link py-3">
+                            <span class="menu-title">Patients</span>
+                           <!--  <span class="menu-arrow d-lg-none"></span> -->
+                          </span>
+                        </div>
+  
+  
+                        <div data-kt-menu-trigger="click" data-kt-menu-placement="bottom-start" *ngIf="role === 'Chw' || role === 'Cbo' || role === 'chw-organization' || role === 'cbo-organization'" class="menu-item menu-lg-down-accordion me-lg-1" (click)="redirectTo('referral')" [ngClass]="{'show': currentUrl === '/referral'}">
+                          <span class="menu-link py-3">
+                            <span class="menu-title">Referral</span>
+                        <!--     <span class="menu-arrow d-lg-none"></span> -->
+                          </span>
+                        
+                        </div>
+
+                        <div data-kt-menu-trigger="click" data-kt-menu-placement="bottom-start" *ngIf="role === 'Chw' || role === 'chw-organization'" class="menu-item menu-lg-down-accordion me-lg-1" (click)="redirectTo('assessment')" [ngClass]="{'show': currentUrl === '/assessment'}">
+                          <span class="menu-link py-3">
+                            <span class="menu-title">Assessments</span>
+                        <!--     <span class="menu-arrow d-lg-none"></span> -->
+                          </span>
+                        
+                        </div>
+               
+                      </div>
+                      <!--end::Menu-->
+                    </div>
+                    <!--end::Menu wrapper-->
+                  </div>
+                  <!--end::Navbar-->
+                  <!--begin::Toolbar wrapper-->
+                  <div class="d-flex align-items-stretch flex-shrink-0">
+                
+            
+                    <div class="d-flex align-items-center ms-1 ms-lg-3" *ngIf="role === 'Chw' || role === 'Cbo' || role === 'chw-organization' || role === 'cbo-organization'">
+                      
+                      <div class="fw-bold d-flex align-items-center fs-6 text-white" id="fs-user-detail">
+                        <span
+                          >{{ email }}</span
+                        >
+                        <span
+                          class="badge badge-light-success fw-bold fs-8 px-1 py-1 ms-2"
+                          >{{ role | uppercase }}</span
+                        >
+                      </div>
+                    </div>
+                    
+                    <!--begin::User menu-->
+                    <div ngbDropdown class="d-flex align-items-center ms-1 ms-lg-3" id="kt_header_user_menu_toggle">
+                      <!--begin::Menu wrapper-->
+                      <div ngbDropdownToggle class="cursor-pointer symbol symbol-30px symbol-md-40px" data-kt-menu-trigger="click" data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end" *ngIf="role === 'Chw' || role === 'Cbo' || role === 'chw-organization' || role === 'cbo-organization'">
+                        <img *ngIf="role === 'Patient'" alt="user" src="assets/media/avatars/pat.jpg">
+                            <img *ngIf="role === 'Chw' || role === 'chw-organization'" alt="user" src="assets/media/avatars/chw.jpg">
+                            <img *ngIf="role === 'Cbo' || role === 'cbo-organization'" alt="user" src="assets/media/avatars/cbo.jpg">
+                      </div>
+                      <!--begin::User account menu-->
+            
+  
+                         <div ngbDropdownMenu aria-labelledby="dropdownBasic1" style="" class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg menu-state-color fw-semibold py-4 fs-6 w-275px" >
+                 
+                         
+                         <div class="menu-item px-3">
+                          <div class="menu-content d-flex align-items-center px-3">
+                            <!--begin::Avatar-->
+                            <div class="symbol symbol-50px me-5">
+                              <img *ngIf="role === 'Patient'" alt="Logo" src="assets/media/avatars/pat.jpg">
+                            <img *ngIf="role === 'Chw' || role === 'chw-organization'" alt="Logo" src="assets/media/avatars/chw.jpg">
+                            <img *ngIf="role === 'Cbo' || role === 'cbo-organization'" alt="Logo" src="assets/media/avatars/cbo.jpg">
+                            </div>
+                                <!--begin::Username-->
+                          <div class="d-flex flex-column">
+                            <div class="fw-bolder d-flex align-items-center fs-5">{{name}}
+                            <span class="badge badge-light-success fw-bolder fs-8 px-2 py-1 ms-2">{{role | uppercase}}</span>
+                           </div>
+                            <a href="#" class="fw-bold text-muted text-hover-primary fs-7">{{email}}</a>
+                          </div>
+                          
+                          </div>
+                        </div>
+  
+                        <div class="separator my-2"></div>
+  
+                        <!-- <div class="menu-item px-3 ">
+                          <a  class="menu-link" 
+                          >Name</a>
+                        </div> -->
+  
+                         <div (click)="logout()" class="menu-item px-3 ">
+                          <a  class="menu-link" 
+                          >Sign Out</a>
+                        </div>
+  
+  
+  
+                      </div>
+  
+       
+  
+  
+  
+                  <!--   </div> -->
+  
+  
+                      <!--end::User account menu-->
+                      <!--end::Menu wrapper-->
+                    </div>
+                    <!--end::User menu-->
+                 
+                  </div>
+                  <!--end::Toolbar wrapper-->
+                </div>
+                <!--end::Wrapper-->
+              </div>
+              <!--end::Container-->
+            </div>
+  
+  
+   
+  
+  <div class="toolbar" id="kt_toolbar">
+                <!--begin::Container-->
+                <div id="kt_toolbar_container" class="container-fluid d-flex flex-stack" *ngIf="role === 'Chw' || role === 'Cbo' || role === 'chw-organization' || role === 'cbo-organization'">
+                  <!--begin::Page title-->
+                  <div data-kt-swapper="true" data-kt-swapper-mode="prepend" data-kt-swapper-parent="{default: '#kt_content_container', 'lg': '#kt_toolbar_container'}" class="page-title d-flex align-items-center flex-wrap me-3 mb-5 mb-lg-0">
+                    <!--begin::Title-->
+                    <h1 class="d-flex text-dark fw-bolder fs-3 align-items-center my-1">Dashboard
+                    <!--begin::Separator-->
+                    <span class="h-20px border-1 border-gray-200 border-start ms-3 mx-2 me-1"></span>
+                    <!--end::Separator-->
+                    <!--begin::Description-->
+                    <!-- <span class="text-muted fs-7 fw-bold mt-2">#XRS-45670</span> -->
+                    <!--end::Description--></h1>
+                    <!--end::Title-->
+                  </div>
+                  <!--end::Page title-->
+                </div>
+                <!--end::Container-->
+              </div>
+  
+  
+  <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+  
+       <router-outlet></router-outlet>
+  
+  
+  </div>
+  </div>
+  
+

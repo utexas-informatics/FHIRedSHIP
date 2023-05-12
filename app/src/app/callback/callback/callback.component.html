@@ -1,0 +1,9 @@
+<app-spinner *ngIf = "showLoading== true"></app-spinner>
+
+<app-iframes *ngIf="iframeUrl !== '' && access_denied == false" [inputFromParent] = iframeUrl ></app-iframes>
+
+ <div id="kt_app_content_container" class="app-container container-xxl" *ngIf="access_denied == true">
+      <div class="alert alert-danger" role="alert" >
+       You don't have access to view this page
+      </div>
+    </div>

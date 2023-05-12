@@ -1,0 +1,12 @@
+
+
+<div class="mb-10">
+    <label class="form-label">{{fieldData.label}}</label>
+    <select class="form-select" name="{{fieldData.fieldName}}" id="{{fieldData.fieldId}}" [(ngModel)]="inputField" (ngModelChange)="dataChanged($event)">
+       <option *ngFor="let option of fieldData.options" [ngValue]="option.value">
+          {{option.name}}
+      </option>
+
+    </select>
+  </div>
+

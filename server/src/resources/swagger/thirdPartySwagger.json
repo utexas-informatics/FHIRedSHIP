@@ -1,0 +1,1149 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "description": "This is the API contract for the third party server for the DMS LEAP application",
+    "version": "1.0.0",
+    "title": "LEAP DMS APIs- Third Party",
+    "termsOfService": ""
+  },
+  "tags": [
+    {
+      "name": "Notifications",
+      "description": "Everything about the notifications from the consented 3rd party apps"
+    },
+    {
+      "name": "Users",
+      "description": "Everything about the users"
+    },
+    {
+      "name": "Messages",
+      "description": "Everything about the message threads"
+    }
+  ],
+  "paths": {
+    "/notifications": {
+      "post": {
+        "tags": ["Notifications"],
+        "summary": "Create new notification",
+        "description": "Create a new notification in the system",
+        "operationId": "createNotification",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Notification"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Notifications"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      },
+      "get": {
+        "tags": ["Notifications"],
+        "summary": "Get notifications for the user",
+        "description": "Required externalAppUserId or leapUserId  in the request",
+        "operationId": "getNotification",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "externalAppUserId",
+            "required": true,
+            "description": "Third party user identifier",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "leapUserId",
+            "required": true,
+            "description": "Leap user identifier",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "appId",
+            "description": "It represents the identifier of third party application registered on LEAP platform.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "description": "index of pagination (default 0)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "size",
+            "description": "number of documents (default 10)",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetNotifications"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      }
+    },
+    "/notifications/{id}": {
+      "get": {
+        "tags": ["Notifications"],
+        "summary": "Get notifications in details",
+        "description": "Get notifications in details",
+        "operationId": "getNotificationInDetail",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "LEAP platform Notification Id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotificationDetails"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      }
+    },
+    "/notifications/{id}/markNotificationAsRead": {
+      "put": {
+        "tags": ["Notifications"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "LEAP platform notification identifier",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "int64"
+            }
+          }
+        ],
+        "summary": "Update Notification status for the user",
+        "description": "Update Notification status for the user",
+        "operationId": "markAsNotificationExternal",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NotificationExternalUser"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Notifications"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      }
+    },
+    "/users": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Get list of users based on the matched criteria",
+        "description": "Get list of users based on the matched criteria",
+        "operationId": "getUsers",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "appId",
+            "required": true,
+            "description": "application identifier received at time of application registration with LEAP platform.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "age",
+            "description": "18",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "email",
+            "description": "xx@email.com",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/userCriteria"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      }
+    },
+    "/messages": {
+      "post": {
+        "tags": ["Messages"],
+        "summary": "Create message thread",
+        "description": "Create new message thread",
+        "operationId": "createMessage",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Message"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Messages"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      },
+      "get": {
+        "tags": ["Messages"],
+        "summary": "Get all message threads by user",
+        "description": "Get all Threads / subjects for the specific user",
+        "operationId": "getMessages",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "appId",
+            "description": "It represents the identifier of third party application registered on LEAP platform.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "AppId",
+              "format": "int64"
+            }
+          },
+          {
+            "in": "query",
+            "name": "userId",
+            "description": "Leap user / Third party user",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "userId",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessagesId"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      }
+    },
+    "/messages/{id}/participants": {
+      "get": {
+        "tags": ["Messages"],
+        "summary": "Get participants for the message thread",
+        "description": "Get participants for the message thread",
+        "operationId": "getParticipants",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Thread message Id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "userId",
+            "in": "query",
+            "required": true,
+            "description": "Leap user / Third party user",
+            "schema": {
+              "type": "string",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Participant"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      }
+    },
+    "/messages/{id}": {
+      "get": {
+        "tags": ["Messages"],
+        "summary": "Get all messages of the thread",
+        "description": "Get all messages of the thread",
+        "operationId": "getChats",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Thread message Id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "int64"
+            }
+          },
+          {
+            "in": "query",
+            "required": true,
+            "name": "senderId",
+            "description": "Leap user / Third party user",
+            "schema": {
+              "type": "string",
+              "description": "Leap user / Third party user"
+            }
+          },
+          {
+            "in": "query",
+            "required": true,
+            "name": "recipientId",
+            "description": "Leap user / Third party user",
+            "schema": {
+              "type": "string",
+              "description": "RecepientId"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ThreadMessages"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      },
+      "put": {
+        "tags": ["Messages"],
+        "summary": "Send a new message",
+        "description": "Send a new message",
+        "operationId": "AddMessage",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Thread message Id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SendMessage"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SendMessageResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      }
+    },
+    "/messages/{id}/markAsRead": {
+      "put": {
+        "tags": ["Messages"],
+        "summary": "Update messages read status",
+        "description": "Update messages read status",
+        "operationId": "markChatAsRead",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Thread message Id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "int64"
+            }
+          },
+          {
+            "in": "query",
+            "required": true,
+            "name": "recipientId",
+            "description": "Leap user / Third party user",
+            "schema": {
+              "type": "string",
+              "description": "Recepient user Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageMarkAsRead"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      }
+    }
+  },
+  "servers": [
+    {
+      "url": "https://localhost:8080/api"
+    },
+    {
+      "url": "http://localhost:8080/api"
+    },
+    {
+      "url": "http://54.174.242.154:8080/api"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    },
+    "schemas": {
+      "Notification": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "example": "test"
+          },
+          "message": {
+            "type": "string",
+            "example": "test message"
+          },
+          "app": {
+            "type": "string",
+            "example": "5fec6f6e8048d25b1c189a2d"
+          },
+          "type": {
+            "type": "string",
+            "description": "Notification type",
+            "example": "EnrollmentAccepted"
+          },
+          "recipients": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "description": "Returns array of notification objects.",
+              "properties": {
+                "leapUserId": {
+                  "type": "string",
+                  "description": "DMS platform patient user Id",
+                  "example": "5fec6f6e8048d25b1c189a2d"
+                },
+                "externalAppUserId": {
+                  "type": "string",
+                  "description": "Third party app user Id",
+                  "example": "5fec6f6e8048d25b1c189a2d"
+                }
+              }
+            }
+          }
+        }
+      },
+      "Notifications": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "example": "123455646456"
+          }
+        }
+      },
+      "NotificationExternalUser": {
+        "type": "object",
+        "properties": {
+          "leapUserId": {
+            "type": "string",
+            "description": "DMS platform patient user Id",
+            "example": "5fec6f6e8048d25b1c189a2d"
+          },
+          "externalAppUserId": {
+            "type": "string",
+            "description": "Third party app user Id",
+            "example": "7yec6f6e8048d25b1c189a3e"
+          }
+        }
+      },
+      "GetNotifications": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "description": "Returns array of notification objects.",
+          "properties": {
+            "notification": {
+              "type": "object",
+              "properties": {
+                "_id": {
+                  "type": "string",
+                  "example": "5ff40edee62fe27178eab165"
+                },
+                "title": {
+                  "type": "string",
+                  "example": "notification title"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "notification details"
+                }
+              }
+            },
+            "isRead": {
+              "type": "string",
+              "example": true
+            }
+          }
+        }
+      },
+      "NotificationDetails": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "example": "123455646456"
+          },
+          "title": {
+            "type": "string",
+            "example": "test"
+          },
+          "message": {
+            "type": "string",
+            "example": "test message"
+          }
+        }
+      },
+      "userCriteria": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "description": "Returns array of users objects.",
+          "properties": {
+            "_id": {
+              "type": "string",
+              "example": "5ff40edee62fe27178eab165"
+            },
+            "firstName": {
+              "type": "string",
+              "example": "first_test"
+            },
+            "lastName": {
+              "type": "string",
+              "example": "last_test"
+            }
+          }
+        }
+      },
+      "Message": {
+        "type": "object",
+        "description": "message details",
+        "properties": {
+          "app": {
+            "type": "string",
+            "example": "5fec6f6e8048d25b1c189a2d"
+          },
+          "title": {
+            "type": "string",
+            "example": "test study"
+          },
+          "userName": {
+            "type": "string",
+            "example": "firstName lastName"
+          },
+          "userId": {
+            "type": "string",
+            "example": "5ff40edee62fe27178eab165"
+          }
+        }
+      },
+      "Messages": {
+        "type": "object",
+        "description": "message details",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "example": "5ffc0cee11acfc4fb804839d"
+          },
+          "app": {
+            "type": "string",
+            "example": "5fec6f6e8048d25b1c189a2d"
+          },
+          "title": {
+            "type": "string",
+            "example": "test study"
+          }
+        }
+      },
+      "MessagesId": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "_id": {
+              "type": "string"
+            },
+            "app": {
+              "type": "string"
+            },
+            "title": {
+              "type": "string"
+            },
+            "unreadCount": {
+              "type": "integer"
+            }
+          }
+        },
+        "example": [
+          {
+            "_id": "5ff53d85af962933a8b3a7f5",
+            "app": "5fec6f6e8048d25b1c189a2d",
+            "title": "Fever Study",
+            "unreadCount": 3
+          },
+          {
+            "_id": "5ff53d85af962933a8b3a444",
+            "app": "5ff53d85af962933a8b3a444",
+            "title": "Covid-19 Study",
+            "unreadCount": 0
+          }
+        ]
+      },
+      "Participant": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "description": "participant details",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "user": {
+              "type": "string"
+            },
+            "unreadCount": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        },
+        "example": [
+          {
+            "id": "5ff559f333aad739800b9bc4",
+            "user": "firstname lastname",
+            "unreadCount": 1
+          },
+          {
+            "id": "5ff5416533aad739800b9bbf",
+            "user": "firstname lastname",
+            "unreadCount": 2
+          }
+        ]
+      },
+      "SendMessage": {
+        "type": "object",
+        "description": "send message payload",
+        "properties": {
+          "sender": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "example": "5ff40edee62fe27178eab165"
+              },
+              "name": {
+                "type": "string",
+                "example": "firstname lastname"
+              }
+            }
+          },
+          "recipient": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "example": "5ff5416533aad739800b9bbf"
+              },
+              "name": {
+                "type": "string",
+                "example": "firstname lastname"
+              }
+            }
+          },
+          "body": {
+            "type": "string",
+            "example": "Hi, Good Morning"
+          }
+        }
+      },
+      "SendMessageResponse": {
+        "type": "object",
+        "description": "Returns array of message objects",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "example": "5ff40a5a061e3f78d0f36e42"
+          },
+          "messages": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "sender": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "5ff40edee62fe27178eab165"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "firstname lastname"
+                    }
+                  }
+                },
+                "recipient": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "5ff5416533aad739800b9bbf"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "firstname lastname"
+                    }
+                  }
+                },
+                "body": {
+                  "type": "string",
+                  "example": "Hi, Good Morning"
+                },
+                "isRead": {
+                  "type": "string",
+                  "example": false
+                }
+              }
+            }
+          }
+        }
+      },
+      "MessageMarkAsRead": {
+        "type": "object",
+        "description": "chat details",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "messages mark as a read successfully"
+          }
+        }
+      },
+      "ThreadMessages": {
+        "type": "object",
+        "description": "Returns array of message objects.",
+        "properties": {
+          "messages": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "sender": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "5ff40edee62fe27178eab165"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "firstname lastname"
+                    }
+                  }
+                },
+                "recipient": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "5ff5416533aad739800b9bbf"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "firstname lastname"
+                    }
+                  }
+                },
+                "body": {
+                  "type": "string",
+                  "example": "Hi, Good Morning"
+                },
+                "postedAt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "example": "2021-01-06T04:54:24.013Z"
+                },
+                "isRead": {
+                  "type": "boolean",
+                  "example": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "responses": {
+      "UnauthorizedError": {
+        "description": "Unauthorised",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 401
+                },
+                "type": {
+                  "type": "string",
+                  "example": "Unauthorised"
+                },
+                "error": {
+                  "type": "string",
+                  "example": "error details from IDP"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "User not authenticated"
+                }
+              }
+            }
+          }
+        }
+      },
+      "NotFound": {
+        "description": "URL Not Found",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 404
+                },
+                "type": {
+                  "type": "string",
+                  "example": "Not Found"
+                },
+                "error": {
+                  "type": "string",
+                  "example": "Invalid URL"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Invalid URL"
+                }
+              }
+            }
+          }
+        }
+      },
+      "InternalServerError": {
+        "description": "Internal Server Error",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 500
+                },
+                "type": {
+                  "type": "string",
+                  "example": "Internal Server Error"
+                },
+                "error": {
+                  "type": "string",
+                  "example": "Object with error details"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Error while creating document"
+                }
+              }
+            }
+          }
+        }
+      },
+      "BadRequest": {
+        "description": "Bad Request",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 400
+                },
+                "type": {
+                  "type": "string",
+                  "example": "Bad Request"
+                },
+                "error": {
+                  "type": "string",
+                  "example": "nested object with validation details"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Validation Failed"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ]
+}

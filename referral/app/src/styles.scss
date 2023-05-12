@@ -1,0 +1,66 @@
+/* You can add global styles to this file, and also import other style files */
+
+// regular style toast
+//@import '~ngx-toastr/toastr';
+//added bootstrap
+//@import '~bootstrap/scss/bootstrap';
+/*
+@import "./assets/sass/style";
+
+ Replace above style with this SCSS file to enable dark mode styles
+//@import "./assets/sass/style.dark";
+
+//@import "./assets/sass/style.angular.scss";
+*/
+.cust-min-height{
+  min-height: calc(100vh - 75px)
+}
+a{
+text-decoration:none;
+}
+.danger-style{
+  background-color:#dc3545;
+  color:#fff;
+}
+.warning-style{
+  background-color:#ffc107;
+  color:#fff;
+}
+.info-style{
+  background-color:#17a2b8;
+  color:#fff;
+}
+.success-style{
+  background-color:#28a745;
+  color:#fff;
+}
+.w-lg-100{
+width:100%;	
+}
+.header-margin{
+margin-top:60px;
+}
+.font-xxl.btn{
+font-size: xx-large;
+}
+.link-disabled.btn{
+opacity:0.5;
+cursor:not-allowed;
+}
+.margin-left-10{
+  margin-left:10px;
+}
+@media(min-width:200px) and (max-width:650px) {
+    .sm-d-none {
+     display:none;   
+    }
+}
+@media(min-width:200px) and (max-width:991px) {
+    .sm-md-none {
+     display:none!important;   
+    }
+}
+body-loading app-root{
+  opacity:0px!important;
+  z-index:1!important;
+}

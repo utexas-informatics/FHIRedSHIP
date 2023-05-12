@@ -1,0 +1,11 @@
+//our root app component
+import {Component, NgModule, Pipe, PipeTransform} from '@angular/core'
+import { DomSanitizer } from '@angular/platform-browser'
+
+@Pipe({ name: 'safeHtml'})
+export class SafeHtmlPipe implements PipeTransform  {
+  constructor(private sanitized: DomSanitizer) {}
+  transform(value:any) {
+    return this.sanitized.bypassSecurityTrustHtml(value);
+  }
+}

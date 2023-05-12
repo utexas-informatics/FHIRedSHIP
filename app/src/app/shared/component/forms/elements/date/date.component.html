@@ -1,0 +1,4 @@
+<div class="mb-10">
+    <label class="form-label">{{fieldData.label}}</label>
+    <input type="date" class="form-control" name="{{fieldData.fieldName}}" id="{{fieldData.fieldId}}" [(ngModel)]="inputField" (keyup)="onKeyup($event)" (ngModelChange)="onKeyup($event)">
+  </div>

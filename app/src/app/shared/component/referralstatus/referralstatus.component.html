@@ -1,0 +1,327 @@
+<!--             <div class="col-sm-6 d-flex align-items-center justify-content-end">
+              <div class="">
+                
+
+                <div ngbDropdown placement="bottom-end" *ngIf="role === 'Cbo' && referral.fs_status != 'Draft' " class="d-inline-block">
+
+   
+                  <span ngbDropdownToggle class="badge badge-light-primary me-10 pointer">{{referral.fs_status}}</span>
+
+
+
+                  <div
+                    ngbDropdownMenu
+                    aria-labelledby="dropdownBasic1"
+                    style=""
+                    class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg menu-state-color fw-semibold py-4 fs-6 w-275px"
+                  >
+                    <div class="menu-item px-3" *ngFor="let status of refStatus;" (click)="changeStatus(status,referral)" ngbDropdownToggle>
+                      <a class="menu-link">{{status.name}}</a>
+                    </div>
+
+                  </div>
+
+                    <span class="text-end fs-notes-icon-pos pointer" [ngClass]="{'icon-hightlight': referral.notes && referral.notes.notes}"><i class="fas fa-file" (click)="openNotes(notes,referral)"></i></span>
+                
+                  
+                </div>
+
+                <div class="d-inline-block pos-relative" *ngIf="role == 'Cbo' && referral.fs_status == 'Draft'">
+                      <span class="badge badge-light-primary me-10 text-capitalize">{{referral.fs_status}}</span>
+                   
+                         <span class="text-end fs-notes-icon-pos pointer icon-hightlight" *ngIf="referral.notes && referral.notes.notes"><i class="fas fa-file" (click)="openNotes(reviewnotes,referral)"></i></span>
+    
+
+
+
+                </div>
+
+                <div  class="d-inline-block pos-relative" *ngIf="role !== 'Cbo'">
+                 
+                       <span class="badge badge-light-primary me-10 text-capitalize">{{referral.fs_status}}</span>
+                   
+                         <span class="text-end fs-notes-icon-pos pointer icon-hightlight" *ngIf="referral.notes && referral.notes.notes"><i class="fas fa-file" (click)="openNotes(reviewnotes,referral)"></i></span>
+     
+                       
+                     </div>
+              </div>
+            </div>
+
+ -->
+
+
+
+
+
+  
+
+                <div ngbDropdown placement="bottom-end" *ngIf="(role === 'Cbo' || role === 'cbo-organization') && (referral.fs_status != 'Draft') " class="d-inline-block">
+
+   
+                  <span ngbDropdownToggle class="badge badge-primary me-10 pointer">{{referral.fs_status}} </span>
+
+
+
+                  <div
+                    ngbDropdownMenu
+                    aria-labelledby="dropdownBasic1"
+                    style=""
+                    class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg menu-state-color fw-semibold py-4 fs-6 w-275px"
+                  >
+                    <div class="menu-item px-3" *ngFor="let status of refStatus;" (click)="changeStatus(status,referral)" ngbDropdownToggle>
+                      <a class="menu-link">{{status.name}}</a>
+                    </div>
+
+                  </div>
+
+                    <span class="text-end fs-notes-icon-pos pointer" [ngClass]="{'icon-hightlight': referral.notes && referral.notes.notes}"><i class="fas fa-file" (click)="openNotes(notes,referral)"></i></span>
+                
+                  
+                </div>
+
+                  <div placement="bottom-end" *ngIf="(role === 'Cbo' || role === 'cbo-organization') && (referral.fs_status == 'Draft')" class="d-inline-block pos-relative">
+                    <span class="badge badge-primary me-10 ">{{referral.fs_status}} </span>
+
+                    <span *ngIf="referral.notes && referral.notes.notes" class="text-end fs-notes-icon-pos pointer" [ngClass]="{'icon-hightlight': referral.notes && referral.notes.notes}"><i class="fas fa-file" (click)="openNotes(reviewnotes,referral)"></i></span>
+
+                 </div>
+
+
+                 <div placement="bottom-end" *ngIf="role == 'Chw' || role == 'chw-organization'" class="d-inline-block pos-relative">
+                    <span class="badge badge-primary me-10 ">{{referral.fs_status}} </span>
+
+                    <span *ngIf="referral.notes && referral.notes.notes" class="text-end fs-notes-icon-pos pointer" [ngClass]="{'icon-hightlight': referral.notes && referral.notes.notes}"><i class="fas fa-file" (click)="openNotes(reviewnotes,referral)"></i></span>
+
+                 </div>
+
+
+
+
+
+
+
+
+
+
+
+<ng-template #notes let-modal>
+  <div class="modal-header">
+    <h2 class="modal-title" id="modal-basic-title">
+     Notes
+    </h2>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
+  </div>
+
+<!-- save/update notes view -->
+
+
+  <div class="modal-body">
+
+
+   <div
+        class="d-flex flex-column mb-8 fv-row fv-plugins-icon-container"
+            >
+              <label class="d-flex align-items-center fs-6 fw-semibold mb-2">
+                <span>Add Notes for Status <b>({{currentStatus}})</b></span>
+              </label>
+                <textarea rows="5" cols="50" class="form-control" name="currentNotes" id="currentNotes" [(ngModel)]="currentNotes"></textarea>
+
+   </div>
+  </div>
+  <div class="modal-footer">
+    
+
+    <button
+      (click)="saveNotes(modal)"
+      type="button"
+      class="btn btn-lg btn-primary"
+      data-kt-stepper-action="next"
+      *ngIf="currentNoteId ==''"
+    >
+     Save
+      <span class="svg-icon svg-icon-3 ms-1 me-0"> </span>
+    </button>
+    <button
+      (click)="clearNotes(modal)"
+      type="button"
+      class="btn btn-lg btn-default"
+      data-kt-stepper-action="next"
+      *ngIf="currentNoteId !=''"
+    >
+     Clear Notes
+      <span class="svg-icon svg-icon-3 ms-1 me-0"> </span>
+    </button>
+
+      <button
+      (click)="saveNotes(modal)"
+      type="button"
+      class="btn btn-lg btn-primary"
+      data-kt-stepper-action="next"
+      *ngIf="currentNoteId !=''"
+    >
+     Update
+      <span class="svg-icon svg-icon-3 ms-1 me-0"> </span>
+    </button>
+  </div>
+
+<!-- end save/update notes view -->
+
+<!-- notes confirmation view -->
+<!-- <div *ngIf="mode == 'confirmation'">
+  <div class="modal-body">
+
+
+   <div
+        class="d-flex flex-column mb-8 fv-row fv-plugins-icon-container"
+            >
+              <label class="d-flex align-items-center fs-6 fw-semibold mb-2">
+                <span>Do you want to set notes for Status <b>({{currentStatus}})</b></span>
+              </label>
+   </div>
+  </div>
+  <div class="modal-footer">
+    
+
+    <button
+      (click)="confirmation(modal,'yes')"
+      type="button"
+      class="btn btn-lg btn-primary"
+      data-kt-stepper-action="next"
+    >
+     Yes
+      <span class="svg-icon svg-icon-3 ms-1 me-0"> </span>
+    </button>
+    <button
+      (click)="confirmation(modal,'no')"
+      type="button"
+      class="btn btn-lg btn-default"
+      data-kt-stepper-action="next"
+    >
+     No
+      <span class="svg-icon svg-icon-3 ms-1 me-0"> </span>
+    </button>
+  </div>
+ </div>
+ -->
+<!--end notes confirmation view -->
+
+
+</ng-template>
+
+
+
+
+
+<ng-template #reviewnotes let-modal>
+  <div class="modal-header">
+    <h2 class="modal-title" id="modal-basic-title">
+     Notes
+    </h2>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
+  </div>
+  <div class="modal-body">
+    
+         <div class="">
+            <div class="align-items-center">
+              <div class="mb-1">
+                <div class="text-gray-800 mb-1">
+                  <span class="fw-bold text-gray-800">Notes: </span>{{currentNotes}}
+                </div>
+              </div>
+              <div class="mb-1">
+                <div class="text-gray-800 mb-1">
+                  <span class="fw-bold text-gray-800">Submitted By: </span
+                  >{{ submittedByName}}
+                </div>
+              </div>
+              <div class="mb-1">
+                <div class="text-gray-800 mb-1">
+                  <span class="fw-bold text-gray-800">Created On: </span
+                  >{{ notesDate | date :'medium' }}
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
+
+
+  </div>
+</ng-template>
+
+
+
+ 
+<ng-template #form let-modal>
+  <div class="modal-header">
+    <h2 class="modal-title" id="modal-basic-title">
+    Share Forms
+    </h2>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
+  </div>
+  <div class="modal-body">
+
+
+   <div
+        class="d-flex flex-column mb-8 fv-row fv-plugins-icon-container"
+            >
+              <label class="d-flex align-items-center fs-6 fw-semibold mb-2">
+                <span>Select Forms</span>
+              </label>
+
+             <app-autocomplete keyword='name' (newItemEvent)="receiveData($event)" inputClear='true' [searchUrl]=searchUrl></app-autocomplete>
+
+             <div *ngFor="let form of totalForms; index as i" class="mt-sm-4">
+             <span class="badge py-3 px-4 fs-7 badge-light-primary">{{form.name}} &nbsp; <i class="fa fa-times" aria-hidden="true" (click)="removeItem(form)"></i></span>
+           </div>
+
+   </div>
+  </div>
+  <div class="modal-footer">
+   
+
+    <button
+      (click)="shareForm(modal)"
+      type="button"
+      class="btn btn-lg btn-primary"
+      data-kt-stepper-action="next"
+    >
+      Share
+      <span class="svg-icon svg-icon-3 ms-1 me-0"> </span>
+    </button>
+  </div>
+</ng-template>
+
+<button
+  style="display: none"
+  id="formShareModal"
+  class="btn btn-lg btn-outline-primary"
+  (click)="open(form)"
+>
+Launch Form Share Modal
+</button>
+
+<button
+  style="display: none"
+  id="ConfirmationModal"
+  class="btn btn-lg btn-outline-primary"
+  (click)="openConfirmationModal(notes)"
+>
+  Launch Notes Modal
+</button>

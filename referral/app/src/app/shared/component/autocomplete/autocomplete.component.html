@@ -1,0 +1,57 @@
+<div class="ng-autocomplete">
+    <ng-autocomplete #auto 
+        [data]="data" 
+        [searchKeyword]="keyword" 
+        (selected)='selectEvent($event)'
+        (inputChanged)='getServerResponse($event)' 
+        (inputFocused)='onFocused($event)' 
+        [itemTemplate]="itemTemplate" 
+        (inputCleared)="searchCleared()"
+        [notFoundTemplate]="notFoundTemplate" 
+        [notFoundText] = errorMsg
+        [debounceTime]="600" 
+        [isLoading]="isLoadingResult" 
+        [minQueryLength]="1"
+        [disabled]="isDisable ? isDisable:false" 
+        placeholder="Search ..."
+        [initialValue] = "value?value:''"
+    >
+    </ng-autocomplete>
+  
+
+
+    <ng-template #itemTemplate let-item>
+      <!--   <a class="fs-txt" *ngIf="item.desc && item.note">
+            <span [innerHTML]="item.desc"></span> (<span [innerHTML]="item.code"></span>)
+            
+
+        </a> -->
+
+         <a class="fs-txt" *ngIf="item.code && item.desc">
+            <span [innerHTML]="item.desc"></span> (<span [innerHTML]="item.code"></span>)
+            
+
+        </a>
+
+         <a class="fs-txt" *ngIf="item.name && item.email">
+            <span [innerHTML]="item.name"></span>
+            
+
+        </a>
+
+         <a class="fs-txt" *ngIf="(!item.name || item.name == '')  && (item.email)">
+            <span [innerHTML]="item.email"></span>
+            
+
+        </a>
+          <!-- <a class="fs-txt" *ngIf="item.email && !item.name">
+            <span [innerHTML]="item.email"></span>
+            
+
+        </a> -->
+    </ng-template>
+
+    <ng-template #notFoundTemplate let-notFound>
+        <div class="fs-txt" [innerHTML]="notFound"></div>
+    </ng-template>
+</div>

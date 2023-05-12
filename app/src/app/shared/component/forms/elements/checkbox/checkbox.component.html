@@ -1,0 +1,14 @@
+
+<div class="mb-10">
+<label class="form-label mb-5 form-check form-check-custom form-check-solid me-10">{{fieldData.label}}</label>
+<div class="mb-5 d-flex">
+<div class="form-check form-check-custom form-check-solid me-10" *ngFor="let option of fieldData.options">
+  <input class="form-check-input" type="checkbox" name="{{fieldData.fieldName}}" id="{{fieldData.fieldId}}" value="{{option.value}}" (change)="selectField(option.value, $event)" [(ngModel)]="option.selected">
+  <label class="form-check-label">
+  {{option.name}}
+  </label>
+</div>
+</div>
+</div>
+
+

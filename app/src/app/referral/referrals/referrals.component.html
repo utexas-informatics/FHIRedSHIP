@@ -1,0 +1,366 @@
+<div class="app-wrapper flex-column flex-row-fluid" id="kt_app_wrapper">
+  <div class="app-main flex-column flex-row-fluid cust-min-height" id="kt_app_main">
+    <div class="d-flex flex-column flex-column-fluid">
+    <!--   <div id="kt_app_toolbar" class="app-toolbar py-3 py-lg-6">
+        <div id="kt_app_toolbar_container" class="app-container container-xxl d-flex flex-stack">
+          <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
+            <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">Referrals</h1>
+          </div>
+          <div class="d-flex align-items-center gap-2 gap-lg-3">
+
+          </div>
+        </div>
+      </div> -->
+
+    
+       <div id="kt_app_content_container" class="app-container container-xxl" *ngIf="show_access_message == true">
+      <div class="alert alert-danger" role="alert" >
+       You don't have access to view this page
+      </div>
+    </div>
+
+
+
+      <div id="kt_app_content" class="app-content flex-column-fluid pos-relative" *ngIf="show_access_message == false">
+        <app-spinner *ngIf="showLoading === true"></app-spinner>
+        <div id="kt_app_content_container" class="app-container container-xxl">
+          
+          <div *ngIf="referrals.length == 0 && initialProcessing==true && showLoading == false" class="card mb-10">
+            <div class="card-body d-flex align-items-center p-5 p-lg-8">
+              No Referrals Found
+            </div>
+          </div>
+
+
+          
+       <!-- referral list start here -->
+       <div *ngIf="referrals.length != 0 && showLoading == false">
+        <div class="card mb-10" *ngFor="let resp of referrals; index as i">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="">
+                <span class="fw-bold fs-sm-4">{{resp.referralName || "Referral"}}</span
+                >
+              </div>
+              <div class="">
+               <span class="fw-bold text-gray-800">Patient:&nbsp;</span> <span class="text-muted font-weight-bold">{{resp.patient.email}}</span>
+              </div>
+
+               <div class="">
+               <span class="fw-bold text-gray-800">CBO:&nbsp;</span> <span *ngFor="let cbo of resp.cbo;" class="text-muted font-weight-bold">{{cbo.email}}</span>
+              </div>
+
+                <div class="">
+                 <span class="fw-bold text-gray-800">Status:&nbsp;</span> <span class="text-muted font-weight-bold">{{resp.fs_status}}</span>
+              </div>
+
+              <div class="">
+              <span class="fw-bold text-gray-800">Created On:&nbsp;</span> <span class="text-muted font-weight-bold">{{resp.date | date :'medium' }}</span>
+              </div>
+
+            </div>
+
+            <div class="col-sm-6 d-flex align-items-center justify-content-end">
+              <div class="">
+
+
+            <!--      <app-referralstatus [referral]=resp *ngIf="showLoading == false"></app-referralstatus>
+
+                  <span class="text-end"><a (click)="goToReferral(resp)" class="btn btn-sm btn-icon btn-bg-light btn-active-color-primary">
+     
+                                 <span class="svg-icon svg-icon-2"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                         <rect opacity="0.5" x="18" y="13" width="13" height="2" rx="1" transform="rotate(-180 18 13)" fill="currentColor"></rect>
+                                         <path d="M15.4343 12.5657L11.25 16.75C10.8358 17.1642 10.8358 17.8358 11.25 18.25C11.6642 18.6642 12.3358 18.6642 12.75 18.25L18.2929 12.7071C18.6834 12.3166 18.6834 11.6834 18.2929 11.2929L12.75 5.75C12.3358 5.33579 11.6642 5.33579 11.25 5.75C10.8358 6.16421 10.8358 6.83579 11.25 7.25L15.4343 11.4343C15.7467 11.7467 15.7467 12.2533 15.4343 12.5657Z" fill="currentColor"></path>
+                                       </svg></span>
+                                   </a></span> -->
+
+                
+
+                <div ngbDropdown placement="bottom-end" *ngIf="(role === 'Cbo' || role === 'cbo-organization') && (resp.fs_status != 'Draft') " class="d-inline-block">
+
+   
+                  <span ngbDropdownToggle class="badge badge-primary me-10 pointer">{{resp.fs_status}}</span>
+
+
+
+                  <div
+                    ngbDropdownMenu
+                    aria-labelledby="dropdownBasic1"
+                    style=""
+                    class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg menu-state-color fw-semibold py-4 fs-6 w-275px"
+                  >
+                    <div class="menu-item px-3" *ngFor="let status of refStatus;" (click)="changeStatus(status,i,resp)" ngbDropdownToggle>
+                      <a class="menu-link">{{status.name}}</a>
+                    </div>
+
+                  </div>
+
+                    <span class="text-end fs-notes-icon-pos pointer" [ngClass]="{'icon-hightlight': resp.notes && resp.notes.notes}"><i class="fas fa-file" (click)="openNotes(notes,resp)"></i></span>
+                     
+                    <span class="text-end"><a (click)="goToReferral(resp)" href="javascript:void(0)" class="btn btn-sm btn-icon btn-bg-light btn-active-color-primary">
+
+                            <span class="svg-icon svg-icon-2"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect opacity="0.5" x="18" y="13" width="13" height="2" rx="1" transform="rotate(-180 18 13)" fill="currentColor"></rect>
+                                    <path d="M15.4343 12.5657L11.25 16.75C10.8358 17.1642 10.8358 17.8358 11.25 18.25C11.6642 18.6642 12.3358 18.6642 12.75 18.25L18.2929 12.7071C18.6834 12.3166 18.6834 11.6834 18.2929 11.2929L12.75 5.75C12.3358 5.33579 11.6642 5.33579 11.25 5.75C10.8358 6.16421 10.8358 6.83579 11.25 7.25L15.4343 11.4343C15.7467 11.7467 15.7467 12.2533 15.4343 12.5657Z" fill="currentColor"></path>
+                                  </svg></span>
+                              </a></span>
+                  
+                </div>
+
+                <div class="d-inline-block pos-relative" *ngIf="(role == 'Cbo' || role === 'cbo-organization') && (resp.fs_status == 'Draft')">
+                      <span class="badge badge-primary me-10 text-capitalize">{{resp.fs_status}}</span>
+                   
+                         <span class="text-end fs-notes-icon-pos pointer icon-hightlight" *ngIf="resp.notes && resp.notes.notes"><i class="fas fa-file" (click)="openNotes(reviewnotes,resp)"></i></span>
+     
+                         <span class="text-end"><a (click)="goToReferral(resp)" class="btn btn-sm btn-icon btn-bg-light btn-active-color-primary">
+     
+                                 <span class="svg-icon svg-icon-2"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                         <rect opacity="0.5" x="18" y="13" width="13" height="2" rx="1" transform="rotate(-180 18 13)" fill="currentColor"></rect>
+                                         <path d="M15.4343 12.5657L11.25 16.75C10.8358 17.1642 10.8358 17.8358 11.25 18.25C11.6642 18.6642 12.3358 18.6642 12.75 18.25L18.2929 12.7071C18.6834 12.3166 18.6834 11.6834 18.2929 11.2929L12.75 5.75C12.3358 5.33579 11.6642 5.33579 11.25 5.75C10.8358 6.16421 10.8358 6.83579 11.25 7.25L15.4343 11.4343C15.7467 11.7467 15.7467 12.2533 15.4343 12.5657Z" fill="currentColor"></path>
+                                       </svg></span>
+                                   </a></span>
+
+
+
+                </div>
+
+                <div  class="d-inline-block pos-relative" *ngIf="role !== 'Cbo' && role !=='cbo-organization'">
+                 
+                       <span class="badge badge-primary me-10 text-capitalize">{{resp.fs_status}}</span>
+                   
+                         <span class="text-end fs-notes-icon-pos pointer icon-hightlight" *ngIf="resp.notes && resp.notes.notes"><i class="fas fa-file" (click)="openNotes(reviewnotes,resp)"></i></span>
+     
+                         <span class="text-end"><a (click)="goToReferral(resp)" class="btn btn-sm btn-icon btn-bg-light btn-active-color-primary">
+     
+                                 <span class="svg-icon svg-icon-2"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                         <rect opacity="0.5" x="18" y="13" width="13" height="2" rx="1" transform="rotate(-180 18 13)" fill="currentColor"></rect>
+                                         <path d="M15.4343 12.5657L11.25 16.75C10.8358 17.1642 10.8358 17.8358 11.25 18.25C11.6642 18.6642 12.3358 18.6642 12.75 18.25L18.2929 12.7071C18.6834 12.3166 18.6834 11.6834 18.2929 11.2929L12.75 5.75C12.3358 5.33579 11.6642 5.33579 11.25 5.75C10.8358 6.16421 10.8358 6.83579 11.25 7.25L15.4343 11.4343C15.7467 11.7467 15.7467 12.2533 15.4343 12.5657Z" fill="currentColor"></path>
+                                       </svg></span>
+                                   </a></span>
+                       
+                     </div>
+              </div>
+            </div>
+
+
+
+
+
+
+          </div>
+        </div>
+      </div>
+    
+    </div>  
+
+     <div class="row mt-sm-8" *ngIf="totalCount > 10">
+        <div class="col-xl-12" style="">
+          <div class="d-flex justify-content-center align-items-center flex-wrap">
+            <div class="d-flex flex-wrap">
+              <ngb-pagination (pageChange)="onPageChange($event)" [directionLinks]="true" [boundaryLinks]="true" [rotate]="true" [ellipses]="false" [collectionSize]="totalCount" [pageSize]="10" [maxSize]="5" [(page)]="page" aria-label="Default pagination"></ngb-pagination>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    <!-- list ends here -->
+
+
+
+
+    
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+<ng-template #notes let-modal>
+  <div class="modal-header">
+    <h2 class="modal-title" id="modal-basic-title">
+     Notes
+    </h2>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
+  </div>
+
+
+
+  <div class="modal-body">
+
+
+   <div
+        class="d-flex flex-column mb-8 fv-row fv-plugins-icon-container"
+            >
+              <label class="d-flex align-items-center fs-6 fw-semibold mb-2">
+                <span>Add Notes for Status <b>({{currentStatus}})</b></span>
+              </label>
+                <textarea rows="5" cols="50" class="form-control" name="currentNotes" id="currentNotes" [(ngModel)]="currentNotes"></textarea>
+
+   </div>
+  </div>
+  <div class="modal-footer">
+    
+
+    <button
+      (click)="saveNotes(modal)"
+      type="button"
+      class="btn btn-lg btn-primary"
+      data-kt-stepper-action="next"
+      *ngIf="currentNoteId ==''"
+    >
+     Save
+      <span class="svg-icon svg-icon-3 ms-1 me-0"> </span>
+    </button>
+    <button
+      (click)="clearNotes(modal)"
+      type="button"
+      class="btn btn-lg btn-default"
+      data-kt-stepper-action="next"
+      *ngIf="currentNoteId !=''"
+    >
+     Clear Notes
+      <span class="svg-icon svg-icon-3 ms-1 me-0"> </span>
+    </button>
+
+      <button
+      (click)="saveNotes(modal)"
+      type="button"
+      class="btn btn-lg btn-primary"
+      data-kt-stepper-action="next"
+      *ngIf="currentNoteId !=''"
+    >
+     Update
+      <span class="svg-icon svg-icon-3 ms-1 me-0"> </span>
+    </button>
+  </div>
+
+
+
+</ng-template>
+
+
+
+
+
+<ng-template #reviewnotes let-modal>
+  <div class="modal-header">
+    <h2 class="modal-title" id="modal-basic-title">
+     Notes
+    </h2>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
+  </div>
+  <div class="modal-body">
+    
+         <div class="">
+            <div class="align-items-center">
+              <div class="mb-1">
+                <div class="text-gray-800 mb-1">
+                  <span class="fw-bold text-gray-800">Notes: </span>{{currentNotes}}
+                </div>
+              </div>
+              <div class="mb-1">
+                <div class="text-gray-800 mb-1">
+                  <span class="fw-bold text-gray-800">Submitted By: </span
+                  >{{ submittedByName}}
+                </div>
+              </div>
+              <div class="mb-1">
+                <div class="text-gray-800 mb-1">
+                  <span class="fw-bold text-gray-800">Created On: </span
+                  >{{ notesDate | date :'medium' }}
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
+
+
+  </div>
+</ng-template>
+
+
+
+ 
+<ng-template #form let-modal>
+  <div class="modal-header">
+    <h2 class="modal-title" id="modal-basic-title">
+    Share Forms
+    </h2>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
+  </div>
+  <div class="modal-body">
+
+
+   <div
+        class="d-flex flex-column mb-8 fv-row fv-plugins-icon-container"
+            >
+              <label class="d-flex align-items-center fs-6 fw-semibold mb-2">
+                <span>Select Forms</span>
+              </label>
+
+             <app-autocomplete keyword='name' (newItemEvent)="receiveData($event)" inputClear='true' [searchUrl]=searchUrl></app-autocomplete>
+
+             <div *ngFor="let form of totalForms; index as i" class="mt-sm-4">
+             <span class="badge py-3 px-4 fs-7 badge-light-primary">{{form.name}} &nbsp; <i class="fa fa-times" aria-hidden="true" (click)="removeItem(form)"></i></span>
+           </div>
+
+   </div>
+  </div>
+  <div class="modal-footer">
+   
+
+    <button
+      (click)="shareForm(modal)"
+      type="button"
+      class="btn btn-lg btn-primary"
+      data-kt-stepper-action="next"
+    >
+      Share
+      <span class="svg-icon svg-icon-3 ms-1 me-0"> </span>
+    </button>
+  </div>
+</ng-template>
+
+<button
+  style="display: none"
+  id="formShareModal"
+  class="btn btn-lg btn-outline-primary"
+  (click)="open(form)"
+>
+Launch Form Share Modal
+</button>
+
+<button
+  style="display: none"
+  id="ConfirmationModal"
+  class="btn btn-lg btn-outline-primary"
+  (click)="openConfirmationModal(notes)"
+>
+  Launch Notes Modal
+</button>

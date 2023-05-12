@@ -1,0 +1,176 @@
+<div *ngIf="progress1 && progress2 && progress3" class="progress">
+  <div
+    class="progress-bar bg-primary"
+    role="progressbar"
+    style="width: 50%"
+    aria-valuenow="50"
+    aria-valuemin="0"
+    aria-valuemax="100"
+  ></div>
+</div>
+<div *ngIf="!progress1 && progress2 && progress3" class="progress">
+  <div
+    class="progress-bar bg-primary"
+    role="progressbar"
+    style="width: 75%"
+    aria-valuenow="75"
+    aria-valuemin="0"
+    aria-valuemax="100"
+  ></div>
+</div>
+
+<div *ngIf="!progress1 && !progress2 && progress3" class="progress">
+  <div
+    class="progress-bar bg-primary"
+    role="progressbar"
+    style="width: 100%"
+    aria-valuenow="100"
+    aria-valuemin="0"
+    aria-valuemax="100"
+  ></div>
+</div>
+ 
+<div class="card card-custom card-stretch gutter-b">
+  <div class="card-header upload-title border-0 pt-5 px-0">
+    <h3 class="card-title align-items-start flex-column">
+      <span class="card-label font-weight-bolder text-dark">Upload File</span>
+    </h3>
+    <div class="card-toolbar"></div>
+    <label class="uploadLabel mt-2" *ngIf="role === 'Patient'">
+      <input type="file" class="uploadButton" name="image" (change)="fileUploaded($event)" accept="image/*" capture="camera">
+      Use Camera
+  </label>
+  </div>
+  <div class="card-body pt-2 pb-0 mt-n3 pos-relative upload-body px-0">
+    <app-spinner *ngIf="showLoading == true"></app-spinner>
+    <div class="center" *ngIf="showLoading == false">
+      <ngx-file-drop
+        dropZoneLabel="Drop files here"
+        accept=".png,.jpg,.jpeg,.pdf,.doc,.docx"
+        (onFileDrop)="dropped($event)"
+        (onFileOver)="fileOver($event)"
+        (onFileLeave)="fileLeave($event)"
+      > 
+        <ng-template
+          ngx-file-drop-content-tmp
+          let-openFileSelector="openFileSelector"
+        >
+          <span class="text-gray-800">Drag file to upload</span>
+          <button
+            (click)="openFileSelector()"
+            type="button "
+            class="btn fs-btn btn-sm margin-left-10"
+            data-kt-stepper-action="next"
+          >
+            Browse files
+          </button>
+        </ng-template>
+      </ngx-file-drop>
+ 
+
+      <!-- <label class="uploadLabel">
+        <input type="file" class="uploadButton" name="image" accept="image/*" capture="camera">
+        Use Camera
+    </label> -->
+       
+      <!-- <canvas></canvas>
+
+
+      <input type="file" accept="image/*;capture=camera">  -->
+      <div class="upload-table">
+        <div class="quick-search-wrapper ps ps--active-y" style="">
+          <div class="quick-search-result">
+            <div
+              class="font-size-sm text-primary font-weight-bolder text-uppercase mb-2"
+            >
+              <div class="mb-10 mt-5">
+                <div
+                  class="d-flex align-items-center flex-grow-1"
+                  *ngFor="let item of uploadedFiles; let i = index"
+                >
+                  <div
+                    class="symbol symbol-30 bg-transparent flex-shrink-0 me-2"
+                  >
+                    <i class="far fa-file"></i>
+                  </div>
+                  <div class="d-flex flex-column ml-3 mt-2 mb-2 me-2">
+                    <a
+                      href="{{ item.link }}"
+                      target=_blank
+                      class="font-weight-bold text-primary text-hover-primary"
+                    >
+                      {{ item.originalName }}
+                    </a>
+                  </div>
+                  <a
+                    href="{{ item.link }}"
+                    download
+                    class="font-weight-bold text-primary text-hover-primary me-2"
+                  >
+                    <i class="fa fa-download"></i>
+                  </a>
+
+                  <a
+                    href="javascript:void(0)"
+                    class="font-weight-bold text-primary text-hover-primary me-2"
+                    href="javascript:void(0)"
+                    style=""
+                    placement="bottom"
+                    triggers="manual"
+                    [autoClose]="true"
+                    #p="ngbPopover"
+                    (click)="p.open(); selectItem(item, i)"
+                    [ngbPopover]="popovercontents"
+                    [popoverTitle]="popOverTitles"
+                    popoverClass="customePopover"
+                    container="body"
+                  >
+                    <i class="far fa-trash-alt"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #popOverTitles>
+  <div class="row">
+    <div class="col-lg-8 popover-cust-title" style="">
+      <div class="font-weight-bold">Delete File</div>
+    </div>
+  </div>
+</ng-template>
+<ng-template #popovercontents>
+  <div class="row overflow-x-auto mx-ht-200" style="">
+    <div class="col-xl-12">
+      <div class="row">
+        <div class="col-sm-12 mb-5">Are you sure to delete?</div>
+      </div>
+
+      <div class="">
+        <button
+          type="button"
+          class="btn btn-sm btn-light-primary font-weight-bold me-2"
+        >
+          Close
+        </button>
+
+        <button
+          (click)="remove()"
+          type="button"
+          class="btn btn-sm btn-primary font-weight-bold"
+        >
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+  <!--   <div class="row mt-2">
+  </div> -->
+</ng-template>
+
+<app-confirmation [isRender]=isRender></app-confirmation>

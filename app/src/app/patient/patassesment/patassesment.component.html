@@ -1,0 +1,120 @@
+<!-- <app-iframes (change)="triggerChild($event)" [inputFromParent] = iframeUrl ></app-iframes> -->
+<ng-template #content let-modal> 
+  <div class="modal-header">
+    <h2 class="modal-title" id="modal-basic-title">Health Concerns</h2>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
+  </div>
+  <div class="modal-body pos-relative min-height-200">
+    <app-spinner *ngIf="showCondLoading == true"></app-spinner>
+    <div class="mb-3" *ngIf="showCondLoading == false">
+      <app-conditionscreen
+        *ngIf = "conditionsArr.length !== 0"
+        (change)="triggerChild($event)"
+        [conditionsArr]="conditionsArr"
+      ></app-conditionscreen>
+
+      <div *ngIf="conditionsArr.length === 0" class="card mb-10">
+        <div class="card-body d-flex align-items-center p-5 p-lg-8">
+          No Data Found
+        </div>
+      </div>
+
+      <!--  <div class="table-responsive">
+        <table class="table table-row-dashed align-middle gs-0 gy-3 my-0">
+          <thead>
+            <tr class="fs-7 fw-bold text-gray-400 border-bottom-0">
+              <th class="p-0 pb-3 min-w-50px text-start">Code</th>
+              <th class="text-start p-0 pb-3 min-w-100px  pe-13">Description</th>
+              <th class="text-start p-0 pb-3 min-w-50px  pe-13">Need</th>
+            </tr>
+          </thead>
+          <tbody class="cust-table-body">
+            <tr style="position:relative" *ngFor="let condition of conditionsArr; index as i">
+              <td>
+                <input [disabled]="condition.code!='' && condition.condId!='' && condition.need!=''" (keyup)="onKeyup($event,i)" type="text" [(ngModel)]="condition.code" placeholder="Type to search">
+              </td>
+              <td class="text-start">
+                <span class="text-gray-600 fw-bold fs-6">{{condition.desc}}</span>
+              </td>
+              <td class="text-start">
+                <input [disabled]="condition.code!='' && condition.condId!='' && condition.need!=''" (change)="setNeedInCondition($event,i)" type="text" [(ngModel)]="condition.need" placeholder="Need">
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div> -->
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button
+      (click)="modal.dismiss('Cross click')"
+      type="button"
+      class="btn btn-secondary"
+    >
+      Close
+    </button>
+  </div>
+</ng-template> 
+
+<div class="app-wrapper flex-column flex-row-fluid" id="kt_app_wrapper">
+  <div
+    class="app-main flex-column flex-row-fluid cust-min-height"
+    id="kt_app_main"
+  >
+    <div class="d-flex flex-column flex-column-fluid">
+      <div id="kt_app_toolbar" class="app-toolbar py-3 py-lg-6" *ngIf="showLoading ==false">
+        <div
+          id="kt_app_toolbar_container"
+          class="app-container container-xxl d-flex flex-stack"
+        >
+          <div
+            class="page-title d-flex flex-column justify-content-center flex-wrap me-3"
+          >
+            <h1
+              class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0"
+            >
+             {{questionnaire.name || "Assessments Response"}}
+            </h1>
+          </div>
+          <div class="d-flex align-items-center gap-2 gap-lg-3" *ngIf="role !== 'Patient'">
+            <button
+              type="button"
+              id="linkingMOdal"
+              class="btn btn-primary btn-md"
+              (click)="open(content)"
+            > 
+              Health Concerns
+            </button>
+          </div>
+        </div>
+      </div>
+      <div id="kt_app_content" class="app-content flex-column-fluid">
+        <app-spinner *ngIf="showLoading == true"></app-spinner>
+        <div id="kt_app_content_container" class="app-container container-xxl">
+
+          <!-- <div class="card ">
+            <div class="card-body d-flex align-items-center p-5 p-lg-8">
+              <div id="formContainer">
+              </div>
+            </div>
+          </div> -->
+          <div id="formContainer"></div>
+        </div>
+      </div>
+      <!--   <div id="kt_app_content" class="app-content flex-column-fluid">
+         
+                <div id="kt_app_content_container" class="app-container container-xxl" style="min-height:100vh-250px;"> -->
+      <!--   <app-iframes (change)="triggerChild($event)" [inputFromParent] = iframeUrl ></app-iframes> -->
+      <!--   </div>
+
+
+            
+            </div> -->
+    </div>
+  </div>
+</div>

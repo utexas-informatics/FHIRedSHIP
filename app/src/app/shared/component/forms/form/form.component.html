@@ -1,0 +1,112 @@
+<!-- <app-spinner *ngIf="showLoading === true"></app-spinner> -->
+<app-spinner *ngIf="isLoaded== false"></app-spinner>
+<div class="card card-flush" *ngIf="isLoaded">
+
+<div class="card-body p-5 p-lg-8">
+	
+<h1 class="mb-10">{{formData.name}}</h1>
+
+<div *ngFor="let section of formData.sections; index as i">
+	<!-- <h2>{{section.name}}</h2> -->
+  
+ <div *ngFor="let row of section.rows; index as r">
+
+
+ <div class="row custom-form-formatting">
+ 	
+  <div *ngFor="let col of row.columns; index as c" class="col">
+
+
+ 
+ 	<app-input *ngIf="col.type == 'input' && (!hideRule[col.fieldName] || (hideRule[col.fieldName] && formResp[hideRule[col.fieldName].elm] !== hideRule[col.fieldName].value))" [fieldData]=col  (newItemEvent)="receiveData($event)" [responseData]=responseData> </app-input>
+    <app-textarea *ngIf="col.type == 'textarea'" [fieldData]=col  (newItemEvent)="receiveData($event)" [responseData]=responseData> </app-textarea>
+
+ 	<app-select *ngIf="col.type == 'select' && (!hideRule[col.fieldName] || (hideRule[col.fieldName] && formResp[hideRule[col.fieldName].elm] !== hideRule[col.fieldName].value))" [fieldData]=col  (newItemEvent)="receiveData($event)" [responseData]=responseData> </app-select>
+ 	<app-date *ngIf="col.type == 'date' && (!hideRule[col.fieldName] || (hideRule[col.fieldName] && formResp[hideRule[col.fieldName].elm] !== hideRule[col.fieldName].value))" [fieldData]=col  (newItemEvent)="receiveData($event)" [responseData]=responseData> </app-date>
+ 	<app-number *ngIf="col.type == 'number' && (!hideRule[col.fieldName] || (hideRule[col.fieldName] && formResp[hideRule[col.fieldName].elm] !== hideRule[col.fieldName].value))" [fieldData]=col  (newItemEvent)="receiveData($event)" [responseData]=responseData> </app-number>
+    <app-checkbox *ngIf="col.type == 'checkbox' && (!hideRule[col.fieldName] || (hideRule[col.fieldName] && formResp[hideRule[col.fieldName].elm] !== hideRule[col.fieldName].value))" [fieldData]=col  (newItemEvent)="receiveData($event)" [responseData]=responseData> </app-checkbox>
+	<app-radio *ngIf="col.type == 'radio' && (!hideRule[col.fieldName] || (hideRule[col.fieldName] && formResp[hideRule[col.fieldName].elm] !== hideRule[col.fieldName].value))" [fieldData]=col  (newItemEvent)="receiveData($event)" [responseData]=responseData> </app-radio> 
+
+	<div *ngIf="col.type == 'fileupload' && (!hideRule[col.fieldName] || (hideRule[col.fieldName] && formResp[hideRule[col.fieldName].elm] !== hideRule[col.fieldName].value))" class="mb-10">
+		<label class="form-label">{{col.label}}</label>
+		<app-fileupload class="file-upload" [linking]="responseId" isRender=false [fieldData]=col (newItemEvent)="receiveData($event)" > </app-fileupload> 
+	</div>
+	
+
+
+
+
+
+
+ </div>
+</div>
+
+
+
+ </div>
+
+
+
+
+
+</div>
+
+
+ <div *ngIf="isConfirmation == true">
+ <button class="btn btn-sm btn-success fs-btn full-stretch-btn" type="button" (click)="p.open();save();" *ngIf="mode != 'edit'" placement="top" triggers="manual" [autoClose]="true" #p="ngbPopover" [ngbPopover]="popovercontents" [popoverTitle]="popOverTitles" popoverClass="customePopover" container="body">Save</button>
+  <button class="btn btn-sm btn-success fs-btn full-stretch-btn" type="button" (click)="p.open();update();" *ngIf="mode == 'edit'" placement="top" triggers="manual" [autoClose]="true" #p="ngbPopover" [ngbPopover]="popovercontents" [popoverTitle]="popOverTitles" popoverClass="customePopover" container="body">Update</button>
+</div>
+
+
+<div *ngIf="isConfirmation == false">
+ <button class="btn btn-sm btn-success fs-btn full-stretch-btn" type="button" (click)="saveData();" *ngIf="mode != 'edit'">Save</button>
+  <button class="btn btn-sm btn-success fs-btn full-stretch-btn" type="button" (click)="updateData();" *ngIf="mode == 'edit'">Update</button>
+</div>
+
+
+
+</div>
+
+
+
+
+</div>
+
+
+<ng-template #popOverTitles>
+  <div class="row">
+    <div class="col-lg-8 popover-cust-title" style="">
+      <div class="font-weight-bold">Confirmation</div>
+    </div>
+  </div>
+</ng-template>
+<ng-template #popovercontents>
+  <div class="row overflow-x-auto mx-ht-200" style="">
+    
+    <div class="col-xl-12">
+
+    <div class="row">
+      <div class="col-sm-12 mb-5">
+      Are you finished with this?
+      </div>
+    </div>
+
+      <div class="text-center">
+      <button (click)="closeTask(true);" type="button" class="btn btn-sm btn-primary font-weight-bold" style="margin-bottom:8px;">Yes, Notify Case Worker</button>
+
+     <button type="button" class="btn btn-sm btn-light-primary font-weight-bold me-2" (click)="closeTask(false);">No, Still working</button>
+
+     
+
+     </div>
+
+
+    </div>
+
+  </div>
+<!--   <div class="row mt-2">
+  </div> -->
+</ng-template>
+
+
+<!-- <app-confirmation></app-confirmation> -->

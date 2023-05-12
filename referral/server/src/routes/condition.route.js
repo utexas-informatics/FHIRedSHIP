@@ -1,0 +1,10 @@
+const router = require('express').Router();
+const conditionController = require('../controllers/condition.controller');
+const verify = require("../middleware");
+//router.get('/:id', conditionController.getById);
+router.get('/',verify.verifyToken,conditionController.getConditions);
+router.get('/questionnaireresponse/:id', verify.verifyToken,conditionController.getConditionsByResp);
+router.post('/', verify.verifyToken,conditionController.save);
+router.delete('/:id',verify.verifyToken,conditionController.remove);
+router.get('/patient/:id',verify.verifyToken,conditionController.getConditionByPatient);
+module.exports = router;

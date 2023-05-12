@@ -1,0 +1,54 @@
+<!--   <app-spinner *ngIf= "showLoading== true"></app-spinner> -->
+<div class="app-wrapper flex-column flex-row-fluid" id="kt_app_wrapper">
+  <div
+    class="app-main flex-column flex-row-fluid cust-min-height"
+    id="kt_app_main"
+  >
+    <div class="d-flex flex-column flex-column-fluid">
+
+      <div id="kt_app_content_container" class="app-container container-xxl" *ngIf="show_access_message == true">
+      <div class="alert alert-danger" role="alert" >
+       You don't have access to view this page
+      </div>
+    </div>
+
+      <div id="kt_app_content" class="app-content flex-column-fluid" *ngIf="show_access_message == false">
+        <div id="kt_app_content_container" class="app-container container-xxl">
+      <div class="row" >
+           
+            <div class="col-sm-4">
+              <app-activity *ngIf="showActivity" [linkedUser]="linkedUser" [showViewAllOption]="showViewAllOption">
+           </app-activity>
+             
+            </div>
+
+       
+ <div class="col-sm-4">
+              <app-recentnotification   *ngIf="showNotifications" [receiverId]="receiverId" [defnotificationrecords]="defnotificationrecords" [showviewallnotificationoption]="showviewallnotificationoption" class=""></app-recentnotification>
+
+
+              
+             
+            </div>
+
+
+            <div class="col-sm-4">
+              <app-task  *ngIf="showTasks" [deftaskrecords]="deftaskrecords" [showviewallTask]="showviewallTask" class=""></app-task>
+           
+            </div>
+            
+
+
+          </div>
+
+
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+</div>
+
+
+

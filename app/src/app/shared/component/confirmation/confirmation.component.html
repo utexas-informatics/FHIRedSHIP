@@ -1,0 +1,18 @@
+<div *ngIf="(isRender == true || isRender =='true') && role == 'Patient'">
+
+<div class="fs-confirmation-alert" *ngIf="isExpand">
+<span>Are you finished with this?</span><button class="btn btn-success btn-sm ms-3 fs-btn" (click)="closeTask();">Yes, Notify Case Worker</button>
+<span class="pos-relative">
+<i class="fas fa-compress ms-3 pointer hide-link" (click)="compress()"></i></span>
+</div>
+
+<div *ngIf="!isExpand" class="fs-compress-box pointer" (click)="expand();">
+	
+<span><i class="fas fa-expand  fs-compress ms-3 pointer"></i></span>
+
+</div>
+
+</div>
+
+
+

@@ -1,0 +1,25 @@
+<div class="ng-autocomplete">
+    <ng-autocomplete #auto 
+        [data]="data" 
+        [searchKeyword]="keyword" 
+        (selected)='selectEvent($event)'
+        (inputChanged)='getServerResponse($event)' 
+        (inputFocused)='onFocused($event)' 
+        [itemTemplate]="itemTemplate" 
+        (inputCleared)="searchCleared()"
+        [notFoundTemplate]="notFoundTemplate" 
+        [debounceTime]="600" 
+        [isLoading]="isLoadingResult" 
+        [minQueryLength]="2" 
+        placeHolder="Search ..."
+    >
+    </ng-autocomplete>
+
+    <ng-template #itemTemplate let-item>
+        <a class="fs-txt" [innerHTML]="item.name"></a>
+    </ng-template>
+
+    <ng-template #notFoundTemplate let-notFound>
+        <div class="fs-txt" [innerHTML]="notFound"></div>
+    </ng-template>
+</div>

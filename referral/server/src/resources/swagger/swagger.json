@@ -1,0 +1,3937 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "description": "This is the API contract for the server for the DMS LEAP application",
+    "version": "1.0.0",
+    "title": "LEAP DMS APIs",
+    "termsOfService": ""
+  },
+  "tags": [
+    {
+      "name": "App Store",
+      "description": "Everything about the external apps"
+    },
+    {
+      "name": "Notifications",
+      "description": "Everything about the notifications from the consented 3rd party apps"
+    },
+    {
+      "name": "Users",
+      "description": "Everything about the users"
+    },
+    {
+      "name": "Messages",
+      "description": "Everything about the message threads"
+    },
+    {
+      "name": "Metadata",
+      "description": "Everything about displaying welcome page"
+    },
+    {
+      "name": "Invite Codes",
+      "description": "Everything about the invite codes"
+    }
+  ],
+  "paths": {
+    "/apps": {
+      "post": {
+        "tags": ["App Store"],
+        "summary": "Register new app",
+        "description": "Creates new app based on data passed in the request body",
+        "operationId": "createApp",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/App"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Apps"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      },
+      "get": {
+        "tags": ["App Store"],
+        "summary": "Gets all apps",
+        "description": "Fetch the list of the external apps",
+        "operationId": "getallApps",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/apps/{id}": {
+      "get": {
+        "tags": ["App Store"],
+        "summary": "Find app by id",
+        "description": "Returns app based on id",
+        "operationId": "getAppById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of app to return",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Apps"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "404": {
+            "description": "App not found"
+          }
+        }
+      },
+      "put": {
+        "tags": ["App Store"],
+        "summary": "Updates the app",
+        "description": "updates app for any of the fields provided in request payload",
+        "operationId": "updateAppById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of app to update",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AppUpdateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppUpdateResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/notifications": {
+      "post": {
+        "tags": ["Notifications"],
+        "summary": "Creates new notification",
+        "description": "Creates new notification based on data passed in the request body",
+        "operationId": "createNotification",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Notification"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Notifications"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/notifications/{id}": {
+      "get": {
+        "tags": ["Notifications"],
+        "summary": "Gets notifications details",
+        "description": "Returns all notifications based on Id",
+        "operationId": "getNotificationsById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Notification ID of app to return",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Notifications"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "404": {
+            "description": "Notification not found"
+          }
+        }
+      }
+    },
+    "/notifications/send": {
+      "put": {
+        "tags": ["Notifications"],
+        "summary": "Send notifications to users",
+        "description": "Send notifications to users for  the consented app",
+        "operationId": "updateNotifications",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "notifications": {
+                    "type": "string",
+                    "example": ["1", "2"]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "notificationId": {
+                        "type": "string"
+                      },
+                      "recipients": {
+                        "type": "integer"
+                      },
+                      "status": {
+                        "type": "boolean"
+                      }
+                    }
+                  },
+                  "example": [
+                    {
+                      "notificationId": "1",
+                      "recipients": 2,
+                      "status": true
+                    },
+                    {
+                      "notificationId": "2",
+                      "recipients": 0,
+                      "status": false
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "404": {
+            "description": "Notification not found"
+          }
+        }
+      }
+    },
+    "/users": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "Register new user",
+        "description": "Register new user based on data passed in the request body",
+        "operationId": "createUser",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Users"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/users/{id}": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Get user by Id",
+        "description": "Get details of user based on its ID",
+        "operationId": "getUserById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of user to return",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserId"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      },
+      "put": {
+        "tags": ["Users"],
+        "summary": "Updates user information",
+        "description": "Updates the user information",
+        "operationId": "updateUserById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of user to return",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "example": "user@test.com"
+                  },
+                  "invitationCode": {
+                    "type": "string",
+                    "example": "MAFB4326"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "updated successfully"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/users/{id}/acceptConsent": {
+      "put": {
+        "tags": ["Users"],
+        "summary": "Consent an app",
+        "description": "adds ref of app associated with appId to user with isActive true",
+        "operationId": "acceptConsent",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of user to return",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "appId": {
+                    "type": "string",
+                    "example": "5ff53d85af962933a8b3a555"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Consent"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/users/{id}/revokeConsent": {
+      "put": {
+        "tags": ["Users"],
+        "summary": "Revoke consent  of app",
+        "description": "updates isActive false in ref of app associated with appId to user",
+        "operationId": "revokeConsent",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of user to return",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "appId": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "example": "5ff53d85af962933a8b3a555"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Consent"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/users/{id}/markNotificationAsRead": {
+      "put": {
+        "tags": ["Users"],
+        "summary": "Mark notification as read",
+        "description": "Mark notification for app as read",
+        "operationId": "markNotificationAsRead",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of user to return",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "notificationId": {
+                    "type": "string",
+                    "example": "5ff40a5a061e3f78d0f36e42"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserId"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/users/{id}/apps": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Get apps by userId",
+        "description": "Get all apps for user based on userId",
+        "operationId": "getAllAppsByUserId",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of app to return",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserApps"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/users/{id}/notifications": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Get notifications by userId",
+        "description": "Get notifications for user based on userId",
+        "operationId": "getNotificationByUserId",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of app to return",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "in": "query",
+            "name": "size",
+            "description": "Size count",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "description": "Page count",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Retrieving data"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/users/{id}/verification": {
+      "put": {
+        "tags": ["Users"],
+        "summary": "Verfiy email code",
+        "description": "Verify email based on email passed in request",
+        "operationId": "verfiyEmail",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of user to return",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "emailCode": {
+                    "type": "string",
+                    "example": "754321"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Verification"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/users/{id}/updatePassword": {
+      "put": {
+        "tags": ["Users"],
+        "summary": "Update Password",
+        "description": "Update password for user",
+        "operationId": "updatePassword",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of user to return",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "password": {
+                    "type": "string",
+                    "example": "encrypted password"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdatePassword"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/users/{id}/activate": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Activate user",
+        "description": "Activate user",
+        "operationId": "activateUser",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of user to return",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Activate"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/users/{id}/login": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "Login with password",
+        "description": "Login details of user",
+        "operationId": "login",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of user to return",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "example": "firstname_lastname@test.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "encrypted password"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Login"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/users/{id}/oneTimeLogin": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "One Time Login link on Email",
+        "description": "One Time Login link on Email",
+        "operationId": "oneTimeLogin",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of user to return",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "login link sent successfully on email"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/users/{id}/verityOneTimeLogin": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Verify One time Login",
+        "description": "Verify One time Login of user",
+        "operationId": "verifyOneTimeLogin",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of user to return",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "in": "query",
+            "name": "code",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "description": "verification code"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VerifyLogin"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/users/verify": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Verify email address",
+        "description": "Verify email address of user",
+        "operationId": "verifyEmailAddress",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "emailId",
+            "schema": {
+              "type": "string",
+              "description": "emailId of user"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Verify"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/users/initiate": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "Initiate new user for email verification",
+        "description": "Initiate new user for email verification",
+        "operationId": "initiateEmailVerification",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "emailVerification",
+            "schema": {
+              "type": "boolean",
+              "description": "emailVerification"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "example": "firstname_lastname@test.com"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Initiate"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/messages": {
+      "post": {
+        "tags": ["Messages"],
+        "summary": "Create thread by researcher",
+        "description": "Create new message thread based on data passed in the request body",
+        "operationId": "createMessage",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Message"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Messages"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      },
+      "get": {
+        "tags": ["Messages"],
+        "summary": "Get thread with unread message count",
+        "description": "Get thread with unread message count as per query parameter",
+        "operationId": "getMessages",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "appId",
+            "schema": {
+              "type": "string",
+              "description": "AppId"
+            }
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "schema": {
+              "type": "integer",
+              "description": "Page"
+            }
+          },
+          {
+            "in": "query",
+            "name": "size",
+            "schema": {
+              "type": "integer",
+              "description": "Size"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessagesId"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "404": {
+            "description": "Message not found"
+          }
+        }
+      }
+    },
+    "/messages/{id}/createChat": {
+      "put": {
+        "tags": ["Messages"],
+        "summary": "Add chat message",
+        "description": "Add chat message in existing thread",
+        "operationId": "createChats",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of app to return",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Chat"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Chats"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "404": {
+            "description": "Chat not found"
+          }
+        }
+      }
+    },
+    "/messages/{id}/participants": {
+      "get": {
+        "tags": ["Messages"],
+        "summary": "Fetch participants information",
+        "description": "Fetch participants information based on threadId",
+        "operationId": "getParticipants",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of app to return",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Participant"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "404": {
+            "description": "Participant not found"
+          }
+        }
+      }
+    },
+    "/messages/{id}": {
+      "get": {
+        "tags": ["Messages"],
+        "summary": "Fetch chat between sender and recipient",
+        "description": "Fetch chats for the perticular threads betweeen sender Id (from headers) and recipient (Query params)",
+        "operationId": "getChats",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of app to return",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "in": "query",
+            "name": "recipientId",
+            "schema": {
+              "type": "string",
+              "description": "RecepientId"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChatId"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "404": {
+            "description": "Chat not found"
+          }
+        }
+      },
+      "put": {
+        "tags": ["Messages"],
+        "summary": "Update thread name",
+        "description": "Update thread name based in Id",
+        "operationId": "updateThread",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of app to return",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string",
+                    "example": "updated thread name"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "example": "5ff40a5a061e3f78d0f36e42"
+                    },
+                    "title": {
+                      "type": "string",
+                      "example": "updated thread name"
+                    },
+                    "createdBy": {
+                      "type": "string",
+                      "example": "firstname lastname"
+                    },
+                    "createdAt": {
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "2020-12-30T13:47:51.918Z"
+                    },
+                    "updatedBy": {
+                      "type": "string",
+                      "example": "firstname lastname"
+                    },
+                    "updatedAt": {
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "2020-12-30T13:47:51.918Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "404": {
+            "description": "Message not found"
+          }
+        }
+      }
+    },
+    "/messages/{id}/markAsRead": {
+      "put": {
+        "tags": ["Messages"],
+        "summary": "Mark read chat from threads",
+        "description": "Mark chat as  from threads based on Id",
+        "operationId": "markChatAsRead",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of app to return",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChatMarkAsRead"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "404": {
+            "description": "Message not found"
+          }
+        }
+      }
+    },
+    "/metadata": {
+      "post": {
+        "tags": ["Metadata"],
+        "summary": "Creates welcome document",
+        "description": "Create new welcome document  based on data passed in the request body",
+        "operationId": "createWelcome",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Welcome"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WelcomeResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/metadata/{id}": {
+      "get": {
+        "tags": ["Metadata"],
+        "summary": "Get welcome document by Id",
+        "description": "Get document details based on Id passed in path",
+        "operationId": "getDocumentById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of document to return",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WelcomeResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "404": {
+            "description": "Document not found"
+          }
+        }
+      },
+      "put": {
+        "tags": ["Metadata"],
+        "summary": "Update welcome document",
+        "description": "Update document based on data passed in request body",
+        "operationId": "updateDocument",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of document to return",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WelcomeUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WelcomeUpdate"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "404": {
+            "description": "Message not found"
+          }
+        }
+      }
+    },
+    "/inviteCodes": {
+      "post": {
+        "tags": ["Invite Codes"],
+        "summary": "creates invite code",
+        "description": "Create invite code  based on data passed in the request body",
+        "operationId": "createInviteCode",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "codes": {
+                    "type": "string",
+                    "example": ["123", "321"]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "_id": {
+                        "type": "string"
+                      },
+                      "isActive": {
+                        "type": "boolean"
+                      },
+                      "code": {
+                        "type": "integer"
+                      },
+                      "createdBy": {
+                        "type": "string"
+                      },
+                      "createdAt": {
+                        "type": "string",
+                        "format": "date-time"
+                      },
+                      "updatedBy": {
+                        "type": "string"
+                      },
+                      "updatedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                      }
+                    }
+                  },
+                  "example": [
+                    {
+                      "_id": "5ff53d85af962933a8b3a555",
+                      "isActive": true,
+                      "code": 123,
+                      "createdBy": "firstname lastname",
+                      "createdAt": "2020-12-30T13:47:51.918Z",
+                      "updatedBy": "firstname lastname",
+                      "updatedAt": "2020-12-30T13:47:51.918Z"
+                    },
+                    {
+                      "_id": "5ff53d85af962345a8b3a342",
+                      "isActive": true,
+                      "code": 321,
+                      "createdBy": "firstname lastname",
+                      "createdAt": "2020-12-30T13:47:51.918Z",
+                      "updatedBy": "firstname lastname",
+                      "updatedAt": "2020-12-30T13:47:51.918Z"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/inviteCodes/{code}": {
+      "get": {
+        "tags": ["Invite Codes"],
+        "summary": "Validate invite code",
+        "description": "validate Invite code",
+        "operationId": "validateInviteCode",
+        "parameters": [
+          {
+            "name": "code",
+            "in": "path",
+            "description": "ID of document to return",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "example": "5ff53d85af962933a8b3a555"
+                    },
+                    "isActive": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "code": {
+                      "type": "integer",
+                      "example": 123
+                    },
+                    "createdBy": {
+                      "type": "string",
+                      "example": "firstname lastname"
+                    },
+                    "createdAt": {
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "2020-12-30T13:47:51.918Z"
+                    },
+                    "updatedBy": {
+                      "type": "string",
+                      "example": "firstname lastname"
+                    },
+                    "updatedAt": {
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "2020-12-30T13:47:51.918Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "404": {
+            "description": "Document not found"
+          }
+        }
+      }
+    }
+  },
+  "servers": [
+    {
+      "url": "http://54.174.242.154:8080/api"
+    },
+    {
+      "url": "https://localhost:8080/api"
+    },
+    {
+      "url": "http://localhost:8080/api"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    },
+    "schemas": {
+      "App": {
+        "type": "object",
+        "description": "the external app.",
+        "properties": {
+          "appName": {
+            "type": "string",
+            "description": "The commercial name of the app",
+            "example": "Study App"
+          },
+          "appLogo": {
+            "type": "string",
+            "example": "https://url_to_app_logo_location"
+          },
+          "appUrl": {
+            "type": "string",
+            "example": "https://url_to_app_url_location"
+          },
+          "shortDescription": {
+            "type": "string",
+            "description": "The short description about the app",
+            "example": "Short description of app"
+          },
+          "longDescription": {
+            "type": "string",
+            "description": "The long description about the app",
+            "example": "Long description of app"
+          },
+          "consentVersion": {
+            "type": "string",
+            "example": "v1"
+          },
+          "consentTermOfUse": {
+            "type": "string",
+            "example": "test"
+          },
+          "consentPrivacy": {
+            "type": "string",
+            "example": "test"
+          },
+          "consentInformation": {
+            "type": "string",
+            "example": "test"
+          },
+          "isSSOEnabled": {
+            "type": "boolean",
+            "example": false
+          }
+        }
+      },
+      "Apps": {
+        "type": "object",
+        "description": "the external app.",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "example": "5ff53d85af962933a8b3a555"
+          },
+          "appName": {
+            "type": "string",
+            "description": "The commercial name of the app",
+            "example": "Study App"
+          },
+          "appLogo": {
+            "type": "string",
+            "example": "https://url_to_app_logo_location"
+          },
+          "appUrl": {
+            "type": "string",
+            "example": "https://url_to_app_url_location"
+          },
+          "shortDescription": {
+            "type": "string",
+            "description": "The short description about the app",
+            "example": "Short description of app"
+          },
+          "longDescription": {
+            "type": "string",
+            "description": "The long description about the app",
+            "example": "Long description of app"
+          },
+          "consentVersion": {
+            "type": "string",
+            "example": "v1"
+          },
+          "consentTermOfUse": {
+            "type": "string",
+            "example": "test"
+          },
+          "consentPrivacy": {
+            "type": "string",
+            "example": "test"
+          },
+          "consentInformation": {
+            "type": "string",
+            "example": "test"
+          },
+          "isSSOEnabled": {
+            "type": "boolean",
+            "example": false
+          },
+          "isDeleted": {
+            "type": "boolean",
+            "example": false
+          },
+          "isActive": {
+            "type": "boolean",
+            "example": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2021-01-06T04:33:09.601+00:00"
+          },
+          "createdBy": {
+            "type": "string",
+            "example": "user name"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2021-01-06T04:33:09.601+00:00"
+          },
+          "updatedBy": {
+            "type": "string",
+            "example": "user name"
+          },
+          "notifications": {
+            "type": "array",
+            "default": [],
+            "items": {
+              "type": "string"
+            }
+          },
+          "medicalRecords": {
+            "type": "array",
+            "default": [],
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "AppUpdateRequest": {
+        "type": "object",
+        "description": "the external app.",
+        "properties": {
+          "appName": {
+            "type": "string",
+            "description": "The commercial name of the app",
+            "example": "Study App"
+          },
+          "appLogo": {
+            "type": "string",
+            "example": "https://url_to_app_logo_location"
+          },
+          "appUrl": {
+            "type": "string",
+            "example": "https://url_to_app_url_location"
+          },
+          "shortDescription": {
+            "type": "string",
+            "description": "The short description about the app",
+            "example": "Short description of app"
+          },
+          "longDescription": {
+            "type": "string",
+            "description": "The long description about the app",
+            "example": "Updated long description of app"
+          },
+          "consentVersion": {
+            "type": "string",
+            "example": "v2"
+          },
+          "consentTermOfUse": {
+            "type": "string",
+            "example": "test"
+          },
+          "consentPrivacy": {
+            "type": "string",
+            "example": "test"
+          },
+          "consentInformation": {
+            "type": "string",
+            "example": "test"
+          },
+          "isSSOEnabled": {
+            "type": "boolean",
+            "example": false
+          }
+        }
+      },
+      "AppUpdateResponse": {
+        "type": "object",
+        "description": "the external app.",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "example": "5ff53d85af962933a8b3a555"
+          },
+          "appName": {
+            "type": "string",
+            "description": "The commercial name of the app",
+            "example": "Study App"
+          },
+          "appLogo": {
+            "type": "string",
+            "example": "https://url_to_app_logo_location"
+          },
+          "appUrl": {
+            "type": "string",
+            "example": "https://url_to_app_url_location"
+          },
+          "shortDescription": {
+            "type": "string",
+            "description": "The short description about the app",
+            "example": "Short description of app"
+          },
+          "longDescription": {
+            "type": "string",
+            "description": "The long description about the app",
+            "example": "Updated long description of app"
+          },
+          "consentVersion": {
+            "type": "string",
+            "example": "v2"
+          },
+          "consentTermOfUse": {
+            "type": "string",
+            "example": "test"
+          },
+          "consentPrivacy": {
+            "type": "string",
+            "example": "test"
+          },
+          "consentInformation": {
+            "type": "string",
+            "example": "test"
+          },
+          "isSSOEnabled": {
+            "type": "boolean",
+            "example": false
+          },
+          "isDeleted": {
+            "type": "boolean",
+            "example": false
+          },
+          "isActive": {
+            "type": "boolean",
+            "example": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2021-01-06T04:33:09.601+00:00"
+          },
+          "createdBy": {
+            "type": "string",
+            "example": "user name"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2021-01-06T04:33:09.601+00:00"
+          },
+          "updatedBy": {
+            "type": "string",
+            "example": "user name"
+          },
+          "notifications": {
+            "type": "array",
+            "default": [],
+            "items": {
+              "type": "string"
+            }
+          },
+          "medicalRecords": {
+            "type": "array",
+            "default": [],
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "AppResponse": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "_id": {
+              "type": "string",
+              "example": "5ff53d85af962933a8b3a555"
+            },
+            "appName": {
+              "type": "string",
+              "example": "Study App"
+            },
+            "appLogo": {
+              "type": "string",
+              "example": "https://url_to_app_logo_location"
+            },
+            "appUrl": {
+              "type": "string",
+              "example": "https://url_to_app_url_location"
+            },
+            "longDescription": {
+              "type": "string",
+              "example": "Long description of app"
+            },
+            "shortDescription": {
+              "type": "string",
+              "example": "Short description of app"
+            },
+            "isActive": {
+              "type": "boolean",
+              "example": true
+            }
+          }
+        }
+      },
+      "User": {
+        "type": "object",
+        "description": "user details",
+        "properties": {
+          "firstName": {
+            "type": "string",
+            "description": "First name of user",
+            "example": "firstname"
+          },
+          "lastName": {
+            "type": "string",
+            "description": "Last name of user",
+            "example": "lastname"
+          },
+          "birthday": {
+            "type": "string",
+            "description": "Date of birth of user",
+            "example": "10/05/1992"
+          },
+          "email": {
+            "type": "string",
+            "description": "Email ID of user",
+            "example": "test@test.com"
+          },
+          "gender": {
+            "type": "string",
+            "example": "male"
+          },
+          "phoneNumberPrimary": {
+            "type": "number",
+            "example": 1234567890
+          },
+          "phoneNumberSecondary": {
+            "type": "number",
+            "example": 1234567890
+          },
+          "invitationCode": {
+            "type": "string",
+            "example": "MAFB4326"
+          },
+          "age": {
+            "type": "number",
+            "example": 55
+          },
+          "role": {
+            "type": "string",
+            "example": "5ff40c7e153fc3d42838f9cb"
+          },
+          "createdBy": {
+            "type": "string",
+            "example": "firstname"
+          },
+          "updatedBy": {
+            "type": "string",
+            "example": "firstname"
+          }
+        }
+      },
+      "Users": {
+        "type": "object",
+        "description": "user details",
+        "properties": {
+          "isActive": {
+            "type": "boolean",
+            "example": true
+          },
+          "isDeleted": {
+            "type": "boolean",
+            "example": false
+          },
+          "_id": {
+            "type": "string",
+            "example": "5ff7038885d21207b8d28ac5"
+          },
+          "firstName": {
+            "type": "string",
+            "description": "First name of user",
+            "example": "firstname"
+          },
+          "lastName": {
+            "type": "string",
+            "description": "Last name of user",
+            "example": "lastname"
+          },
+          "birthday": {
+            "type": "string",
+            "description": "Date of birth of user",
+            "example": "10/05/1992"
+          },
+          "email": {
+            "type": "string",
+            "description": "Email ID of user",
+            "example": "test@test.com"
+          },
+          "gender": {
+            "type": "string",
+            "example": "male"
+          },
+          "phoneNumberPrimary": {
+            "type": "number",
+            "example": 1234567890
+          },
+          "phoneNumberSecondary": {
+            "type": "number",
+            "example": 1234567890
+          },
+          "invitationCode": {
+            "type": "string",
+            "example": "MAFB4326"
+          },
+          "age": {
+            "type": "number",
+            "example": 55
+          },
+          "role": {
+            "type": "string",
+            "example": "5ff40c7e153fc3d42838f9cb"
+          },
+          "createdBy": {
+            "type": "string",
+            "example": "firstname"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2021-01-07T12:50:16.615Z"
+          },
+          "updatedBy": {
+            "type": "string",
+            "example": "firstname"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2021-01-07T12:50:16.615Z"
+          },
+          "apps": {
+            "type": "array",
+            "default": [],
+            "items": {
+              "type": "string"
+            }
+          },
+          "notifications": {
+            "type": "array",
+            "default": [],
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "UserId": {
+        "type": "object",
+        "description": "user details",
+        "properties": {
+          "isActive": {
+            "type": "boolean",
+            "example": true
+          },
+          "isDeleted": {
+            "type": "boolean",
+            "example": false
+          },
+          "_id": {
+            "type": "string",
+            "example": "5ff7038885d21207b8d28ac5"
+          },
+          "firstName": {
+            "type": "string",
+            "description": "First name of user",
+            "example": "firstname"
+          },
+          "lastName": {
+            "type": "string",
+            "description": "Last name of user",
+            "example": "lastname"
+          },
+          "birthday": {
+            "type": "string",
+            "description": "Date of birth of user",
+            "example": "10/05/1992"
+          },
+          "email": {
+            "type": "string",
+            "description": "Email ID of user",
+            "example": "test@test.com"
+          },
+          "gender": {
+            "type": "string",
+            "example": "male"
+          },
+          "phoneNumberPrimary": {
+            "type": "number",
+            "example": 1234567890
+          },
+          "phoneNumberSecondary": {
+            "type": "number",
+            "example": 1234567890
+          },
+          "invitationCode": {
+            "type": "string",
+            "example": "MAFB4326"
+          },
+          "age": {
+            "type": "number",
+            "example": 55
+          },
+          "role": {
+            "type": "object",
+            "properties": {
+              "_id": {
+                "type": "string",
+                "example": "5ff40c7e153fc3d42838f9cb"
+              },
+              "role": {
+                "type": "string",
+                "example": "patient"
+              }
+            }
+          },
+          "createdBy": {
+            "type": "string",
+            "example": "Admin"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2020-12-30T13:47:51.918Z"
+          },
+          "updatedBy": {
+            "type": "string",
+            "example": "Admin"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2020-12-30T13:47:51.918Z"
+          },
+          "apps": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "isActive": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "consentedMedicalRecords": {
+                  "type": "array",
+                  "default": [],
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "_id": {
+                  "type": "string",
+                  "example": "5ff48ef6a4bcf442483d6f48"
+                },
+                "app": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "_id": {
+                        "type": "string",
+                        "example": "5fec6f6e8048d25b1c189a2d"
+                      },
+                      "isDeleted": {
+                        "type": "boolean",
+                        "example": false
+                      },
+                      "isActive": {
+                        "type": "boolean",
+                        "example": true
+                      },
+                      "notifications": {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "example": "5ff40a5a061e3f78d0f36e42"
+                        }
+                      },
+                      "appName": {
+                        "type": "string",
+                        "example": "studyApp"
+                      },
+                      "longDescription": {
+                        "type": "string",
+                        "example": "long description of app"
+                      },
+                      "createdBy": {
+                        "type": "string",
+                        "example": "Balwant"
+                      },
+                      "updatedBy": {
+                        "type": "string",
+                        "example": "Balwant"
+                      },
+                      "createdAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2020-12-30T12:10:26.531Z"
+                      },
+                      "updatedAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2020-12-30T12:10:26.531Z"
+                      },
+                      "shortDescription": {
+                        "type": "string",
+                        "example": "short description of app"
+                      },
+                      "consentVersion": {
+                        "type": "string",
+                        "example": "v4"
+                      },
+                      "medicalRecords": {
+                        "type": "array",
+                        "default": [],
+                        "items": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "notifications": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "isPushed": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "isRead": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "_id": {
+                  "type": "string",
+                  "example": "5ff4a85eb4c7a14cec131a7c"
+                },
+                "notification": {
+                  "type": "string",
+                  "example": "5ff40a5a061e3f78d0f36e42"
+                },
+                "createdAt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "example": "2021-01-05T17:57:06.586Z"
+                }
+              }
+            }
+          }
+        }
+      },
+      "UserApps": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "isActive": {
+              "type": "boolean",
+              "example": true
+            },
+            "consentedMedicalRecords": {
+              "type": "array",
+              "default": [],
+              "items": {
+                "type": "string"
+              }
+            },
+            "_id": {
+              "type": "string",
+              "example": "5ff48ef6a4bcf442483d6f48"
+            },
+            "app": {
+              "type": "object",
+              "properties": {
+                "isDeleted": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "isActive": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "notifications": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "example": "5ff40a5a061e3f78d0f36e42"
+                  }
+                },
+                "medicalRecords": {
+                  "type": "array",
+                  "default": [],
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "_id": {
+                  "type": "string",
+                  "example": "5fec6f6e8048d25b1c189a2d"
+                },
+                "appName": {
+                  "type": "string",
+                  "example": "studyApp"
+                },
+                "longDescription": {
+                  "type": "string",
+                  "example": "long description of app"
+                },
+                "shortDescription": {
+                  "type": "string",
+                  "example": "short desctiption of app"
+                },
+                "createdBy": {
+                  "type": "string",
+                  "example": "username"
+                },
+                "createdAt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "example": "2020-12-30T12:10:26.531Z"
+                },
+                "updatedBy": {
+                  "type": "string",
+                  "example": "username"
+                },
+                "updatedAt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "example": "2020-12-30T12:10:26.531Z"
+                },
+                "consentVersion": {
+                  "type": "string",
+                  "example": "v4"
+                }
+              }
+            }
+          }
+        }
+      },
+      "Consent": {
+        "type": "object",
+        "description": "user details",
+        "properties": {
+          "isActive": {
+            "type": "boolean",
+            "example": true
+          },
+          "isDeleted": {
+            "type": "boolean",
+            "example": false
+          },
+          "_id": {
+            "type": "string",
+            "example": "5ff7038885d21207b8d28ac5"
+          },
+          "firstName": {
+            "type": "string",
+            "description": "First name of user",
+            "example": "firstname"
+          },
+          "lastName": {
+            "type": "string",
+            "description": "Last name of user",
+            "example": "lastname"
+          },
+          "birthday": {
+            "type": "string",
+            "description": "Date of birth of user",
+            "example": "10/05/1992"
+          },
+          "email": {
+            "type": "string",
+            "description": "Email ID of user",
+            "example": "test@test.com"
+          },
+          "gender": {
+            "type": "string",
+            "example": "male"
+          },
+          "phoneNumberPrimary": {
+            "type": "number",
+            "example": 1234567890
+          },
+          "phoneNumberSecondary": {
+            "type": "number",
+            "example": 1234567890
+          },
+          "invitationCode": {
+            "type": "string",
+            "example": "MAFB4326"
+          },
+          "age": {
+            "type": "number",
+            "example": 55
+          },
+          "role": {
+            "type": "object",
+            "properties": {
+              "_id": {
+                "type": "string",
+                "example": "5ff40c7e153fc3d42838f9cb"
+              },
+              "role": {
+                "type": "string",
+                "example": "patient"
+              }
+            }
+          },
+          "createdBy": {
+            "type": "string",
+            "example": "Admin"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2020-12-30T13:47:51.918Z"
+          },
+          "updatedBy": {
+            "type": "string",
+            "example": "Admin"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2020-12-30T13:47:51.918Z"
+          },
+          "apps": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "isActive": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "consentedMedicalRecords": {
+                  "type": "array",
+                  "default": [],
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "_id": {
+                  "type": "string",
+                  "example": "5ff53d85af962933a8b3a555"
+                },
+                "app": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "_id": {
+                        "type": "string",
+                        "example": "5fec6f6e8048d25b1c189a2d"
+                      },
+                      "isDeleted": {
+                        "type": "boolean",
+                        "example": false
+                      },
+                      "isActive": {
+                        "type": "boolean",
+                        "example": true
+                      },
+                      "notifications": {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "example": "5ff40a5a061e3f78d0f36e42"
+                        }
+                      },
+                      "appName": {
+                        "type": "string",
+                        "example": "studyApp"
+                      },
+                      "longDescription": {
+                        "type": "string",
+                        "example": "long description of app"
+                      },
+                      "createdBy": {
+                        "type": "string",
+                        "example": "Balwant"
+                      },
+                      "updatedBy": {
+                        "type": "string",
+                        "example": "Balwant"
+                      },
+                      "createdAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2020-12-30T12:10:26.531Z"
+                      },
+                      "updatedAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2020-12-30T12:10:26.531Z"
+                      },
+                      "shortDescription": {
+                        "type": "string",
+                        "example": "short description of app"
+                      },
+                      "consentVersion": {
+                        "type": "string",
+                        "example": "v4"
+                      },
+                      "medicalRecords": {
+                        "type": "array",
+                        "default": [],
+                        "items": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "notifications": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "isPushed": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "isRead": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "_id": {
+                  "type": "string",
+                  "example": "5ff4a85eb4c7a14cec131a7c"
+                },
+                "notification": {
+                  "type": "string",
+                  "example": "5ff40a5a061e3f78d0f36e42"
+                },
+                "createdAt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "example": "2021-01-05T17:57:06.586Z"
+                }
+              }
+            }
+          }
+        }
+      },
+      "Notification": {
+        "type": "object",
+        "properties": {
+          "isBroadcasted": {
+            "type": "boolean",
+            "example": false
+          },
+          "sender": {
+            "type": "string",
+            "example": "firstname lastname"
+          },
+          "title": {
+            "type": "string",
+            "example": "test"
+          },
+          "message": {
+            "type": "string",
+            "example": "test message"
+          },
+          "logo": {
+            "type": "string",
+            "example": "logo"
+          },
+          "broadcastTime": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2021-01-05T04:14:12.000Z"
+          },
+          "broadcastedAt": {
+            "type": "string",
+            "example": null
+          },
+          "app": {
+            "type": "string",
+            "example": "5fec6f6e8048d25b1c189a2d"
+          }
+        }
+      },
+      "Notifications": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "example": "5ff40a5a061e3f78d0f36e42"
+          },
+          "isBroadcasted": {
+            "type": "boolean",
+            "example": false
+          },
+          "isActive": {
+            "type": "boolean",
+            "example": true
+          },
+          "isDeleted": {
+            "type": "boolean",
+            "example": false
+          },
+          "sender": {
+            "type": "string",
+            "example": "firstname lastname"
+          },
+          "title": {
+            "type": "string",
+            "example": "test title"
+          },
+          "message": {
+            "type": "string",
+            "example": "test message"
+          },
+          "logo": {
+            "type": "string",
+            "example": "logo"
+          },
+          "broadcastTime": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2021-01-05T04:14:12.000Z"
+          },
+          "broadcastedAt": {
+            "type": "string",
+            "example": null
+          },
+          "app": {
+            "type": "string",
+            "example": "5fec6f6e8048d25b1c189a2d"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2021-01-05T04:14:12.000Z"
+          },
+          "createdBy": {
+            "type": "string",
+            "example": "firstname lastname"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2021-01-05T04:14:12.000Z"
+          },
+          "updatedBy": {
+            "type": "string",
+            "example": "fistname lastname"
+          }
+        }
+      },
+      "Message": {
+        "type": "object",
+        "description": "message details",
+        "properties": {
+          "app": {
+            "type": "string",
+            "example": "5fec6f6e8048d25b1c189a2d"
+          },
+          "title": {
+            "type": "string",
+            "example": "test study"
+          }
+        }
+      },
+      "Messages": {
+        "type": "object",
+        "description": "message details",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "example": "5ffc0cee11acfc4fb804839d"
+          },
+          "app": {
+            "type": "string",
+            "example": "5fec6f6e8048d25b1c189a2d"
+          },
+          "title": {
+            "type": "string",
+            "example": "test study"
+          },
+          "createdBy": {
+            "type": "string",
+            "example": "firstname lastName"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2021-01-11T08:31:42.270Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2021-01-11T08:31:42.270Z"
+          },
+          "updatedBy": {
+            "type": "string",
+            "example": "firstname lastname"
+          },
+          "chats": {
+            "type": "array",
+            "default": [],
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "MessagesId": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "_id": {
+              "type": "string",
+              "example": "5ff53d85af962933a8b3a7f5"
+            },
+            "app": {
+              "type": "string",
+              "example": "5fec6f6e8048d25b1c189a2d"
+            },
+            "title": {
+              "type": "string",
+              "example": "Fever Study"
+            },
+            "createdAt": {
+              "type": "string",
+              "format": "date-time",
+              "example": "2021-01-06T04:33:09.601Z"
+            },
+            "updatedAt": {
+              "type": "string",
+              "format": "date-time",
+              "example": "2021-01-06T04:33:09.601Z"
+            },
+            "unreadCount": {
+              "type": "integer",
+              "example": 3
+            }
+          }
+        }
+      },
+      "Participant": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "description": "participant details",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "user": {
+              "type": "string"
+            },
+            "unreadCount": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        },
+        "example": [
+          {
+            "id": "5ff559f333aad739800b9bc4",
+            "user": "firstname lastname",
+            "unreadCount": 1
+          },
+          {
+            "id": "5ff5416533aad739800b9bbf",
+            "user": "firstname lastname",
+            "unreadCount": 2
+          }
+        ]
+      },
+      "Chat": {
+        "type": "object",
+        "description": "chat details",
+        "properties": {
+          "sender": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "example": "5ff40edee62fe27178eab165"
+              },
+              "name": {
+                "type": "string",
+                "example": "firstname lastname"
+              }
+            }
+          },
+          "recipient": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "example": "5ff5416533aad739800b9bbf"
+              },
+              "name": {
+                "type": "string",
+                "example": "firstname lastname"
+              }
+            }
+          },
+          "body": {
+            "type": "string",
+            "example": "Hi, Good Morning"
+          }
+        }
+      },
+      "Chats": {
+        "type": "object",
+        "description": "chat details",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "example": "5ff40a5a061e3f78d0f36e42"
+          },
+          "chats": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "sender": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "5ff40edee62fe27178eab165"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "firstname lastname"
+                    }
+                  }
+                },
+                "recipient": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "5ff5416533aad739800b9bbf"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "firstname lastname"
+                    }
+                  }
+                },
+                "body": {
+                  "type": "string",
+                  "example": "Hi, Good Morning"
+                },
+                "createdBy": {
+                  "type": "string",
+                  "example": "firstname lastname"
+                },
+                "createdAt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "example": "2020-12-30T13:47:51.918Z"
+                },
+                "updatedBy": {
+                  "type": "string",
+                  "example": "firstname lastname"
+                },
+                "updatedAt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "example": "2020-12-30T13:47:51.918Z"
+                }
+              }
+            }
+          }
+        }
+      },
+      "ChatMarkAsRead": {
+        "type": "object",
+        "description": "chat details",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "example": "5ff40a5a061e3f78d0f36e42"
+          },
+          "chats": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "sender": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "5ff40edee62fe27178eab165"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "firstname lastname"
+                    }
+                  }
+                },
+                "recipient": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "5ff5416533aad739800b9bbf"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "firstname lastname"
+                    }
+                  }
+                },
+                "body": {
+                  "type": "string",
+                  "example": "Hi, Good Morning"
+                },
+                "postedAt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "example": "2021-01-11T08:31:42.270Z"
+                },
+                "isRead": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "createdBy": {
+                  "type": "string",
+                  "example": "firstname lastname"
+                },
+                "createdAt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "example": "2020-12-30T13:47:51.918Z"
+                },
+                "updatedBy": {
+                  "type": "string",
+                  "example": "firstname lastname"
+                },
+                "updatedAt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "example": "2020-12-30T13:47:51.918Z"
+                }
+              }
+            }
+          }
+        }
+      },
+      "ChatId": {
+        "type": "object",
+        "properties": {
+          "chats": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "sender": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "5ff40edee62fe27178eab165"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "firstname lastname"
+                    }
+                  }
+                },
+                "recipient": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "5ff5416533aad739800b9bbf"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "firstname lastname"
+                    }
+                  }
+                },
+                "body": {
+                  "type": "string",
+                  "example": "Hi, Good Morning"
+                },
+                "postedAt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "example": "2021-01-06T04:54:24.013Z"
+                },
+                "isRead": {
+                  "type": "boolean",
+                  "example": false
+                }
+              }
+            }
+          }
+        }
+      },
+      "Welcome": {
+        "type": "object",
+        "properties": {
+          "welcomeScreens": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "imageUrl": {
+                  "type": "string",
+                  "example": "https://url_to_image"
+                },
+                "title": {
+                  "type": "string",
+                  "example": "sample title"
+                },
+                "content": {
+                  "type": "string",
+                  "example": "sample text content"
+                }
+              }
+            }
+          },
+          "appConsent": {
+            "type": "string",
+            "example": "consent data"
+          }
+        }
+      },
+      "WelcomeResponse": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "example": "5ff53d85af962933a8b3a555"
+          },
+          "welcomeScreens": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "imageUrl": {
+                  "type": "string",
+                  "example": "https://url_to_image"
+                },
+                "title": {
+                  "type": "string",
+                  "example": "sample title"
+                },
+                "content": {
+                  "type": "string",
+                  "example": "sample text content"
+                }
+              }
+            }
+          },
+          "appConsent": {
+            "type": "string",
+            "example": "consent data"
+          }
+        }
+      },
+      "WelcomeUpdate": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "example": "5ff40cb84f294b73985e3dcc"
+          },
+          "welcomeScreens": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "imageUrl": {
+                  "type": "string",
+                  "example": "https://url_to_image"
+                },
+                "title": {
+                  "type": "string",
+                  "example": "new screen  title"
+                },
+                "content": {
+                  "type": "string",
+                  "example": "new screen title content"
+                }
+              }
+            }
+          },
+          "appConsent": {
+            "type": "string",
+            "example": "consent data"
+          }
+        }
+      },
+      "Verification": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "example": "5ff40edee62fe27178eab165"
+          },
+          "firstName": {
+            "type": "string",
+            "description": "First name of user",
+            "example": "firstname"
+          },
+          "lastName": {
+            "type": "string",
+            "description": "Last name of user",
+            "example": "lastname"
+          },
+          "birthday": {
+            "type": "string",
+            "description": "Date of birth of user",
+            "example": "10/05/1992"
+          },
+          "email": {
+            "type": "string",
+            "description": "Email ID of user",
+            "example": "firstname_lastname@test.com"
+          },
+          "gender": {
+            "type": "string",
+            "example": "male"
+          },
+          "phoneNumberPrimary": {
+            "type": "number",
+            "example": 1234567890
+          },
+          "phoneNumberSecondary": {
+            "type": "number",
+            "example": 1234567890
+          },
+          "age": {
+            "type": "number",
+            "example": 55
+          },
+          "role": {
+            "type": "object"
+          },
+          "createdBy": {
+            "type": "string",
+            "example": "firstname lastname"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2020-12-30T13:47:51.918Z"
+          },
+          "updatedBy": {
+            "type": "string",
+            "example": "firstname lastname"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2020-12-30T13:47:51.918Z"
+          },
+          "isActive": {
+            "type": "boolean",
+            "example": true
+          },
+          "apps": {
+            "type": "array",
+            "default": [],
+            "items": {
+              "type": "string"
+            }
+          },
+          "verificationCode": {
+            "type": "object",
+            "properties": {
+              "email": {
+                "type": "string",
+                "example": "754321"
+              }
+            }
+          },
+          "status": {
+            "type": "string",
+            "example": "emailVerified"
+          }
+        }
+      },
+      "UpdatePassword": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "example": "5ff40edee62fe27178eab165"
+          },
+          "firstName": {
+            "type": "string",
+            "description": "First name of user",
+            "example": "firstname"
+          },
+          "lastName": {
+            "type": "string",
+            "description": "Last name of user",
+            "example": "lastname"
+          },
+          "birthday": {
+            "type": "string",
+            "description": "Date of birth of user",
+            "example": "10/05/1992"
+          },
+          "email": {
+            "type": "string",
+            "description": "Email ID of user",
+            "example": "firstname_lastname@test.com"
+          },
+          "gender": {
+            "type": "string",
+            "example": "male"
+          },
+          "phoneNumberPrimary": {
+            "type": "number",
+            "example": 1234567890
+          },
+          "phoneNumberSecondary": {
+            "type": "number",
+            "example": 1234567890
+          },
+          "age": {
+            "type": "number",
+            "example": 55
+          },
+          "role": {
+            "type": "object"
+          },
+          "createdBy": {
+            "type": "string",
+            "example": "firstname lastname"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2020-12-30T13:47:51.918Z"
+          },
+          "updatedBy": {
+            "type": "string",
+            "example": "firstname lastname"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2020-12-30T13:47:51.918Z"
+          },
+          "isActive": {
+            "type": "boolean",
+            "example": true
+          },
+          "apps": {
+            "type": "array",
+            "default": [],
+            "items": {
+              "type": "string"
+            }
+          },
+          "status": {
+            "type": "string",
+            "example": "PendingApproval"
+          }
+        }
+      },
+      "Activate": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "example": "5ff40edee62fe27178eab165"
+          },
+          "firstName": {
+            "type": "string",
+            "description": "First name of user",
+            "example": "firstname"
+          },
+          "lastName": {
+            "type": "string",
+            "description": "Last name of user",
+            "example": "lastname"
+          },
+          "birthday": {
+            "type": "string",
+            "description": "Date of birth of user",
+            "example": "10/05/1992"
+          },
+          "email": {
+            "type": "string",
+            "description": "Email ID of user",
+            "example": "firstname_lastname@test.com"
+          },
+          "gender": {
+            "type": "string",
+            "example": "male"
+          },
+          "phoneNumberPrimary": {
+            "type": "number",
+            "example": 1234567890
+          },
+          "phoneNumberSecondary": {
+            "type": "number",
+            "example": 1234567890
+          },
+          "age": {
+            "type": "number",
+            "example": 55
+          },
+          "role": {
+            "type": "object"
+          },
+          "createdBy": {
+            "type": "string",
+            "example": "firstname lastname"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2020-12-30T13:47:51.918Z"
+          },
+          "updatedBy": {
+            "type": "string",
+            "example": "firstname lastname"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2020-12-30T13:47:51.918Z"
+          },
+          "isActive": {
+            "type": "boolean",
+            "example": true
+          },
+          "apps": {
+            "type": "array",
+            "default": [],
+            "items": {
+              "type": "string"
+            }
+          },
+          "status": {
+            "type": "string",
+            "example": "Activate"
+          }
+        }
+      },
+      "Login": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "type": "object",
+            "properties": {
+              "_id": {
+                "type": "string",
+                "example": "5ff40edee62fe27178eab165"
+              },
+              "firstName": {
+                "type": "string",
+                "description": "First name of user",
+                "example": "firstname"
+              },
+              "lastName": {
+                "type": "string",
+                "description": "Last name of user",
+                "example": "lastname"
+              },
+              "birthday": {
+                "type": "string",
+                "description": "Date of birth of user",
+                "example": "10/05/1992"
+              },
+              "email": {
+                "type": "string",
+                "description": "Email ID of user",
+                "example": "firstname_lastname@test.com"
+              },
+              "gender": {
+                "type": "string",
+                "example": "male"
+              },
+              "phoneNumberPrimary": {
+                "type": "number",
+                "example": 1234567890
+              },
+              "phoneNumberSecondary": {
+                "type": "number",
+                "example": 1234567890
+              },
+              "age": {
+                "type": "number",
+                "example": 55
+              },
+              "role": {
+                "type": "object"
+              },
+              "createdBy": {
+                "type": "string",
+                "example": "firstname lastname"
+              },
+              "createdAt": {
+                "type": "string",
+                "format": "date-time",
+                "example": "2020-12-30T13:47:51.918Z"
+              },
+              "updatedBy": {
+                "type": "string",
+                "example": "firstname lastname"
+              },
+              "updatedAt": {
+                "type": "string",
+                "format": "date-time",
+                "example": "2020-12-30T13:47:51.918Z"
+              },
+              "isActive": {
+                "type": "boolean",
+                "example": true
+              },
+              "apps": {
+                "type": "array",
+                "default": [],
+                "items": {
+                  "type": "string"
+                }
+              },
+              "status": {
+                "type": "string",
+                "example": "Activate"
+              }
+            }
+          },
+          "token": {
+            "type": "string",
+            "example": "Bearer token generated by passport lib"
+          }
+        }
+      },
+      "VerifyLogin": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "type": "object",
+            "properties": {
+              "_id": {
+                "type": "string",
+                "example": "5ff40edee62fe27178eab165"
+              },
+              "firstName": {
+                "type": "string",
+                "description": "First name of user",
+                "example": "firstname"
+              },
+              "lastName": {
+                "type": "string",
+                "description": "Last name of user",
+                "example": "lastname"
+              },
+              "birthday": {
+                "type": "string",
+                "description": "Date of birth of user",
+                "example": "10/05/1992"
+              },
+              "email": {
+                "type": "string",
+                "description": "Email ID of user",
+                "example": "firstname_lastname@test.com"
+              },
+              "gender": {
+                "type": "string",
+                "example": "male"
+              },
+              "phoneNumberPrimary": {
+                "type": "number",
+                "example": 1234567890
+              },
+              "phoneNumberSecondary": {
+                "type": "number",
+                "example": 1234567890
+              },
+              "age": {
+                "type": "number",
+                "example": 55
+              },
+              "role": {
+                "type": "object"
+              },
+              "createdBy": {
+                "type": "string",
+                "example": "firstname lastname"
+              },
+              "createdAt": {
+                "type": "string",
+                "format": "date-time",
+                "example": "2020-12-30T13:47:51.918Z"
+              },
+              "updatedBy": {
+                "type": "string",
+                "example": "firstname lastname"
+              },
+              "updatedAt": {
+                "type": "string",
+                "format": "date-time",
+                "example": "2020-12-30T13:47:51.918Z"
+              },
+              "isActive": {
+                "type": "boolean",
+                "example": true
+              },
+              "apps": {
+                "type": "array",
+                "default": [],
+                "items": {
+                  "type": "string"
+                }
+              },
+              "verificationCode": {
+                "type": "object",
+                "properties": {
+                  "oneTimeLogin": {
+                    "type": "integer",
+                    "example": 754321
+                  }
+                }
+              },
+              "status": {
+                "type": "string",
+                "example": "Activate"
+              }
+            }
+          },
+          "token": {
+            "type": "string",
+            "example": "Bearer token generated by passport lib"
+          }
+        }
+      },
+      "Verify": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "example": "5ff40edee62fe27178eab165"
+          },
+          "firstName": {
+            "type": "string",
+            "description": "First name of user",
+            "example": "firstname"
+          },
+          "lastName": {
+            "type": "string",
+            "description": "Last name of user",
+            "example": "lastname"
+          },
+          "birthday": {
+            "type": "string",
+            "description": "Date of birth of user",
+            "example": "10/05/1992"
+          },
+          "email": {
+            "type": "string",
+            "description": "Email ID of user",
+            "example": "firstname_lastname@test.com"
+          },
+          "gender": {
+            "type": "string",
+            "example": "male"
+          },
+          "phoneNumberPrimary": {
+            "type": "number",
+            "example": 1234567890
+          },
+          "phoneNumberSecondary": {
+            "type": "number",
+            "example": 1234567890
+          },
+          "age": {
+            "type": "number",
+            "example": 55
+          },
+          "role": {
+            "type": "object",
+            "properties": {
+              "_id": {
+                "type": "string",
+                "example": "5ff40cb84f294b73985e3dcc"
+              },
+              "role": {
+                "type": "string",
+                "example": "patient"
+              }
+            }
+          },
+          "createdBy": {
+            "type": "string",
+            "example": "firstname lastname"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2020-12-30T13:47:51.918Z"
+          },
+          "updatedBy": {
+            "type": "string",
+            "example": "firstname lastname"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2020-12-30T13:47:51.918Z"
+          },
+          "isActive": {
+            "type": "boolean",
+            "example": true
+          }
+        }
+      },
+      "Initiate": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "example": "5ff40edee62fe27178eab165"
+          },
+          "firstName": {
+            "type": "string",
+            "description": "First name of user",
+            "example": "firstname"
+          },
+          "lastName": {
+            "type": "string",
+            "description": "Last name of user",
+            "example": "lastname"
+          },
+          "birthday": {
+            "type": "string",
+            "description": "Date of birth of user",
+            "example": "10/05/1992"
+          },
+          "email": {
+            "type": "string",
+            "description": "Email ID of user",
+            "example": "firstname_lastname@test.com"
+          },
+          "gender": {
+            "type": "string",
+            "example": "male"
+          },
+          "phoneNumberPrimary": {
+            "type": "number",
+            "example": 1234567890
+          },
+          "phoneNumberSecondary": {
+            "type": "number",
+            "example": 1234567890
+          },
+          "age": {
+            "type": "number",
+            "example": 55
+          },
+          "role": {
+            "type": "object"
+          },
+          "createdBy": {
+            "type": "string",
+            "example": "firstname lastname"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2020-12-30T13:47:51.918Z"
+          },
+          "updatedBy": {
+            "type": "string",
+            "example": "firstname lastname"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2020-12-30T13:47:51.918Z"
+          },
+          "isActive": {
+            "type": "boolean",
+            "example": true
+          },
+          "apps": {
+            "type": "array",
+            "default": [],
+            "items": {
+              "type": "string"
+            }
+          },
+          "verificationCode": {
+            "type": "object",
+            "properties": {
+              "email": {
+                "type": "string",
+                "example": "754321"
+              }
+            }
+          },
+          "status": {
+            "type": "string",
+            "example": "inActive"
+          }
+        }
+      }
+    },
+    "responses": {
+      "UnauthorizedError": {
+        "description": "Access token is missing or invalid"
+      }
+    }
+  },
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ]
+}
